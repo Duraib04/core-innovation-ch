@@ -30,8 +30,8 @@ export default function About() {
             About <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Me</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            I'm Durai, a passionate innovator dedicated to creating exceptional digital experiences
-            that push the boundaries of what's possible.
+            I&apos;m Durai, a passionate innovator dedicated to creating exceptional digital experiences
+            that push the boundaries of what&apos;s possible.
           </p>
         </motion.div>
 

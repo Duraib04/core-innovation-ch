@@ -90,7 +90,7 @@ export default function Navigation() {
             whileTap={{ scale: 0.95 }}
             className="px-6 py-2 bg-gradient-to-r from-primary via-secondary to-accent rounded-full font-semibold glow-strong"
           >
-            Let's Talk
+            Let&apos;s Talk
           </motion.button>
         </div>
       </div>

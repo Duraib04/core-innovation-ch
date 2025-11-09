@@ -441,7 +441,7 @@ export default function Products() {
               </form>
 
               <p className="text-sm text-gray-400 text-center mt-4">
-                We'll contact you shortly to confirm your order and arrange delivery.
+                We&apos;ll contact you shortly to confirm your order and arrange delivery.
               </p>
             </motion.div>
           </motion.div>

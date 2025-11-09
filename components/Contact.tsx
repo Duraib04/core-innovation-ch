@@ -100,9 +100,9 @@ export default function Contact() {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-3xl font-bold mb-6 glow">Let's Talk</h3>
+              <h3 className="text-3xl font-bold mb-6 glow">Let&apos;s Talk</h3>
               <p className="text-gray-300 mb-8">
-                Have a project in mind? I'm always open to discussing new opportunities
+                Have a project in mind? I&apos;m always open to discussing new opportunities
                 and creative collaborations. Feel free to reach out!
               </p>
             </div>
