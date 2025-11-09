@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { FiMail, FiPhone, FiMapPin, FiSend, FiTwitter, FiGithub, FiLinkedin } from 'react-icons/fi'
+import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
 import { useState } from 'react'
 
 export default function Contact() {
@@ -149,6 +150,34 @@ export default function Contact() {
                   </motion.a>
                 ))}
               </div>
+            </div>
+
+            {/* Quick Contact Buttons */}
+            <div className="space-y-3 pt-6 border-t border-gray-800">
+              <p className="text-sm text-gray-400 mb-3">Quick Connect:</p>
+              <motion.a
+                href="https://wa.me/916369704741?text=Hi!%20I%20am%20interested%20in%20your%20products/services."
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, x: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-3 p-4 bg-gradient-to-r from-green-600 to-green-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all group"
+              >
+                <FaWhatsapp className="text-2xl" />
+                <span>Chat on WhatsApp</span>
+              </motion.a>
+
+              <motion.a
+                href="https://m.me/durai.b.473058323"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05, x: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg font-semibold hover:shadow-lg hover:shadow-blue-500/50 transition-all group"
+              >
+                <FaFacebookMessenger className="text-2xl" />
+                <span>Chat on Messenger</span>
+              </motion.a>
             </div>
           </motion.div>
 
