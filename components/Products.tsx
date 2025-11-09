@@ -1,18 +1,63 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { FiShoppingCart, FiStar, FiHeart, FiZap } from 'react-icons/fi'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX } from 'react-icons/fi'
 import { useState } from 'react'
 
 export default function Products() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [showModal, setShowModal] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<string>('')
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    quantity: '1',
+  })
+
+  const handleAddToCart = (productName: string) => {
+    setSelectedProduct(productName)
+    setShowModal(true)
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Here you can add logic to send the order to your backend
+    console.log('Order Details:', {
+      product: selectedProduct,
+      ...formData,
+    })
+    alert(`Thank you! Your order for ${selectedProduct} has been received. We will contact you soon!`)
+    setShowModal(false)
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      state: '',
+      pincode: '',
+      quantity: '1',
+    })
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    })
+  }
 
   const products = [
     {
       name: 'Smart IoT Industry Ecosystem',
       description: 'Connected industrial IoT environment for real-time monitoring, predictive maintenance and energy optimization.',
-      price: 'Enterprise',
-      originalPrice: '',
+      price: '₹4,000',
+      originalPrice: '₹6,000',
       rating: 4.8,
       reviews: 68,
       image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80',
@@ -22,8 +67,8 @@ export default function Products() {
     {
       name: 'IoT Smart Lift Guard',
       description: 'ESP32-based Wi-Fi lift access control with secure portal and password-gated activation.',
-      price: '$299',
-      originalPrice: '$399',
+      price: '₹1,500',
+      originalPrice: '₹2,500',
       rating: 4.7,
       reviews: 142,
       image: 'https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=1200&q=80',
@@ -33,8 +78,8 @@ export default function Products() {
     {
       name: 'Smart Home Gas Monitoring',
       description: 'AI-driven gas detection with automatic ventilation control and voice command integration.',
-      price: '$189',
-      originalPrice: '$299',
+      price: '₹6,000',
+      originalPrice: '₹8,000',
       rating: 4.8,
       reviews: 213,
       image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=80',
@@ -44,8 +89,8 @@ export default function Products() {
     {
       name: 'IoT Smart Door Lock (RFID)',
       description: 'Secure RFID door lock with monitoring, access logs and remote dashboard control.',
-      price: '$159',
-      originalPrice: '$249',
+      price: '₹500',
+      originalPrice: '₹800',
       rating: 4.7,
       reviews: 198,
       image: 'https://images.unsplash.com/photo-1505685296765-3a2736de412f?w=1200&q=80',
@@ -55,8 +100,8 @@ export default function Products() {
     {
       name: 'IoT Smart Water Planting Kit',
       description: 'Sensor-driven automated irrigation kit with AI optimizations for plant health.',
-      price: '$129',
-      originalPrice: '$199',
+      price: '₹500',
+      originalPrice: '₹800',
       rating: 4.6,
       reviews: 94,
       image: 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=1200&q=80',
@@ -66,8 +111,8 @@ export default function Products() {
     {
       name: 'IoT Smart Night Lamp',
       description: 'Ambient-sensing night lamp with IoT controls and customizable scenes.',
-      price: '$49',
-      originalPrice: '$79',
+      price: '₹400',
+      originalPrice: '₹600',
       rating: 4.5,
       reviews: 412,
       image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=1200&q=80',
@@ -198,6 +243,7 @@ export default function Products() {
 
                   {/* CTA */}
                   <motion.button
+                    onClick={() => handleAddToCart(product.name)}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     className="w-full py-3 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/50 transition-all"
@@ -234,6 +280,173 @@ export default function Products() {
           </motion.button>
         </motion.div>
       </div>
+
+      {/* Order Form Modal */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-2xl font-bold glow">Order Details</h3>
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setShowModal(false)}
+                  className="text-gray-400 hover:text-white"
+                >
+                  <FiX className="text-2xl" />
+                </motion.button>
+              </div>
+
+              {/* Product Info */}
+              <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+                <p className="text-lg font-semibold text-primary">{selectedProduct}</p>
+              </div>
+
+              {/* Order Form */}
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Phone Number *</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                      pattern="[0-9]{10}"
+                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      placeholder="10-digit mobile number"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Email Address *</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    placeholder="your@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Delivery Address *</label>
+                  <textarea
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                    rows={3}
+                    className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
+                    placeholder="House/Flat No, Street, Landmark"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">City *</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      placeholder="City"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">State *</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      placeholder="State"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Pincode *</label>
+                    <input
+                      type="text"
+                      name="pincode"
+                      value={formData.pincode}
+                      onChange={handleChange}
+                      required
+                      pattern="[0-9]{6}"
+                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      placeholder="6-digit PIN"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Quantity</label>
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    min="1"
+                    required
+                    className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/50 transition-all text-lg glow-strong"
+                >
+                  <FiShoppingCart />
+                  Place Order
+                </motion.button>
+              </form>
+
+              <p className="text-sm text-gray-400 text-center mt-4">
+                We'll contact you shortly to confirm your order and arrange delivery.
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
