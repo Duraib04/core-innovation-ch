@@ -1,0 +1,24 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with rounded corners for iOS -->
+  <rect width="180" height="180" rx="40" fill="url(#gradient2)"/>
+  
+  <!-- Letter D - scaled up -->
+  <path d="M50 45 L50 135 L90 135 C112.5 135 129.375 118.125 129.375 90 C129.375 61.875 112.5 45 90 45 Z M67.5 61.875 L90 61.875 C101.25 61.875 112.5 70.3125 112.5 90 C112.5 109.6875 101.25 118.125 90 118.125 L67.5 118.125 Z" fill="white"/>
+  
+  <!-- Dot accent -->
+  <circle cx="135" cy="56.25" r="14.0625" fill="#22D3EE"/>
+  
+  <!-- Small innovation icon -->
+  <circle cx="135" cy="123.75" r="3.75" fill="white" opacity="0.6"/>
+  <circle cx="145" cy="123.75" r="3.75" fill="white" opacity="0.6"/>
+  <circle cx="155" cy="123.75" r="3.75" fill="white" opacity="0.6"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient2" x1="0" y1="0" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+</svg>

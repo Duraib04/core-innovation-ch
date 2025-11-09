@@ -1,0 +1,19 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="24" cy="24" r="24" fill="url(#gradient3)"/>
+  
+  <!-- Letter D with modern design -->
+  <path d="M13.5 12 L13.5 36 L24 36 C30 36 34.5 31.5 34.5 24 C34.5 16.5 30 12 24 12 Z M18 16.5 L24 16.5 C27 16.5 30 18.75 30 24 C30 29.25 27 31.5 24 31.5 L18 31.5 Z" fill="white"/>
+  
+  <!-- Dot accent -->
+  <circle cx="36" cy="15" r="3.75" fill="#22D3EE"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient3" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="50%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#22D3EE"/>
+    </linearGradient>
+  </defs>
+</svg>
