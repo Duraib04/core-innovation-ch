@@ -4,7 +4,6 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import Card3D from './Card3D'
 import GlassMorph from './GlassMorph'
-import EpicBackground from './EpicBackground'
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -136,10 +135,6 @@ export default function Hero() {
       {/* Advanced Background with Parallax */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-blue-900/30 to-cyan-900/30 animate-gradient-x"></div>
-        
-        {/* Epic Animated Elements */}
-        <EpicBackground />
-        
         {/* Layer 1: Deep Background */}
         <motion.div 
           className="absolute inset-0"
