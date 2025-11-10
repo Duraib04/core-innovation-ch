@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef, useEffect } from 'react'
 import { FiSend, FiMessageCircle, FiFileText, FiMail } from 'react-icons/fi'
+import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
 import jsPDF from 'jspdf'
 
 interface Message {
@@ -44,6 +45,8 @@ export default function CustomProjectPage() {
   })
   const [isTyping, setIsTyping] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showSendOptions, setShowSendOptions] = useState(false)
+  const [projectNumber, setProjectNumber] = useState<string>('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const chatContainerRef = useRef<HTMLDivElement>(null)
 
@@ -354,19 +357,71 @@ export default function CustomProjectPage() {
     return doc
   }
 
+  const handleSendViaWhatsApp = () => {
+    const data = projectData as ProjectData
+    const message = `Hi! I'd like to request a custom project:\n\n` +
+      `Project #: ${projectNumber}\n` +
+      `Name: ${data.name}\n` +
+      `Email: ${data.email}\n` +
+      `Phone: ${data.phone}\n\n` +
+      `Project Type: ${data.projectType}\n` +
+      `Budget: ${data.budget}\n` +
+      `Timeline: ${data.timeline}\n\n` +
+      `Purpose: ${data.purpose}\n\n` +
+      `I've downloaded the detailed project proposal PDF. Please review and get back to me!`
+    
+    window.open(`https://wa.me/916369704741?text=${encodeURIComponent(message)}`, '_blank')
+    setShowSendOptions(false)
+  }
+
+  const handleSendViaMessenger = () => {
+    window.open('https://m.me/durai.b.473058323', '_blank')
+    setShowSendOptions(false)
+  }
+
+  const handleSendViaGmail = () => {
+    const data = projectData as ProjectData
+    const subject = `Custom Project Request - ${data.projectType} - ${projectNumber}`
+    const body = `Hi,\n\nI'd like to request a custom project:\n\n` +
+      `Project #: ${projectNumber}\n` +
+      `Name: ${data.name}\n` +
+      `Email: ${data.email}\n` +
+      `Phone: ${data.phone}\n\n` +
+      `Project Details:\n` +
+      `Type: ${data.projectType}\n` +
+      `Budget: ${data.budget}\n` +
+      `Timeline: ${data.timeline}\n\n` +
+      `Purpose: ${data.purpose}\n` +
+      `Target Audience: ${data.targetAudience}\n\n` +
+      `Description: ${data.description}\n\n` +
+      `Key Features: ${data.features?.join(', ')}\n\n` +
+      `Inspiration: ${data.inspiration}\n` +
+      `Challenges: ${data.challenges}\n\n` +
+      `Additional Notes: ${data.additionalNotes || 'None'}\n\n` +
+      `I've attached the detailed project proposal PDF.\n\nPlease review and get back to me with a quote.\n\nThank you!`
+    
+    window.open(`mailto:itsdurai4@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank')
+    setShowSendOptions(false)
+  }
+
   const generateAndSendDocument = async () => {
     setIsSubmitting(true)
 
     try {
       const pdf = generatePDF()
       const data = projectData as ProjectData
+      const projNum = `PROJ-${Date.now()}`
+      setProjectNumber(projNum)
 
       // Download PDF for client
-      const fileName = `Project-Proposal-${data.name.replace(/\s+/g, '-')}-${Date.now()}.pdf`
+      const fileName = `Project-Proposal-${data.name.replace(/\s+/g, '-')}-${projNum}.pdf`
       pdf.save(fileName)
 
+      // Show send options
+      setShowSendOptions(true)
+
       addMessage(
-        `✅ Perfect! Your detailed project proposal has been created and downloaded!\n\n📥 PDF Downloaded: ${fileName}\n\n🎯 Next Steps:\n\n1️⃣ Email the PDF to: itsdurai4@gmail.com\n   Subject: "Custom Project Request - ${data.projectType}"\n\n2️⃣ Or send via WhatsApp: +91 6369704741\n\n3️⃣ We'll review your proposal within 24 hours\n\n4️⃣ You'll receive a detailed quote and timeline\n\n5️⃣ We'll schedule a call to discuss further\n\nYour project details:\n• Type: ${data.projectType}\n• Budget: ${data.budget}\n• Timeline: ${data.timeline}\n• Contact: ${data.email} | ${data.phone}\n\nThank you for trusting Core Innovation with your project! 🚀\n\nWe're excited to bring your vision to life! 💡`,
+        `✅ Perfect! Your detailed project proposal has been created!\n\n📥 PDF Downloaded: ${fileName}\n\n🚀 Choose how you'd like to send it to us using the options above!\n\nProject #: ${projNum}`,
         'bot'
       )
     } catch (error) {
@@ -541,6 +596,112 @@ export default function CustomProjectPage() {
           </motion.div>
         </div>
       </div>
+
+      {/* Send Options Modal */}
+      <AnimatePresence>
+        {showSendOptions && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-8 max-w-lg w-full"
+            >
+              {/* Success Icon */}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2, type: "spring", bounce: 0.6 }}
+                className="text-center mb-6"
+              >
+                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <motion.div
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="text-4xl"
+                  >
+                    ✓
+                  </motion.div>
+                </div>
+                <h3 className="text-3xl font-bold text-green-400 mb-2">Proposal Ready! 🎉</h3>
+                <p className="text-gray-300">Project #{projectNumber}</p>
+                <p className="text-sm text-gray-400 mt-2">PDF downloaded successfully!</p>
+              </motion.div>
+
+              {/* Send Options */}
+              <div className="space-y-4 mb-6">
+                <p className="text-center text-lg font-semibold mb-4">Send your proposal via:</p>
+                
+                {/* WhatsApp */}
+                <motion.button
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleSendViaWhatsApp}
+                  className="w-full flex items-center gap-4 p-4 bg-green-600 hover:bg-green-500 rounded-xl transition-all group"
+                >
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                    <FaWhatsapp className="text-3xl text-green-600" />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="font-bold text-lg">WhatsApp</p>
+                    <p className="text-sm text-green-100">Send to +91 6369704741</p>
+                  </div>
+                  <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                </motion.button>
+
+                {/* Messenger */}
+                <motion.button
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleSendViaMessenger}
+                  className="w-full flex items-center gap-4 p-4 bg-blue-600 hover:bg-blue-500 rounded-xl transition-all group"
+                >
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                    <FaFacebookMessenger className="text-3xl text-blue-600" />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="font-bold text-lg">Messenger</p>
+                    <p className="text-sm text-blue-100">Chat on Facebook</p>
+                  </div>
+                  <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                </motion.button>
+
+                {/* Gmail */}
+                <motion.button
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleSendViaGmail}
+                  className="w-full flex items-center gap-4 p-4 bg-red-600 hover:bg-red-500 rounded-xl transition-all group"
+                >
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+                    <FiMail className="text-3xl text-red-600" />
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="font-bold text-lg">Gmail</p>
+                    <p className="text-sm text-red-100">Email to itsdurai4@gmail.com</p>
+                  </div>
+                  <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                </motion.button>
+              </div>
+
+              {/* Skip Button */}
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setShowSendOptions(false)}
+                className="w-full py-3 text-gray-400 hover:text-white border border-gray-700 hover:border-gray-500 rounded-lg transition-all"
+              >
+                I&apos;ll send it later
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
