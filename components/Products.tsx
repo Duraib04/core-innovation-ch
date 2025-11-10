@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX } from 'react-icons/fi'
 import { useState } from 'react'
 import jsPDF from 'jspdf'
-import emailjs from '@emailjs/browser'
 
 export default function Products() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -105,48 +104,25 @@ export default function Products() {
     try {
       // Generate PDF
       const pdf = generatePDF()
-      const pdfBlob = pdf.output('blob')
-      const pdfBase64 = pdf.output('dataurlstring').split(',')[1]
-
-      // Initialize EmailJS (you'll need to replace these with your actual credentials)
-      // Sign up at https://www.emailjs.com/ to get these
-      emailjs.init('YOUR_PUBLIC_KEY') // Replace with your EmailJS public key
-
-      // Prepare email parameters
-      const emailParams = {
-        to_email: 'itsdurai4@gmail.com', // Your email
-        customer_email: formData.email, // Customer's email
-        customer_name: formData.name,
-        product_name: selectedProduct,
-        product_price: selectedProductPrice,
-        quantity: formData.quantity,
-        order_number: `ORD-${Date.now()}`,
-        phone: formData.phone,
-        address: `${formData.address}, ${formData.city}, ${formData.state} - ${formData.pincode}`,
-        pdf_attachment: pdfBase64,
-      }
-
-      // Send email to your address
-      await emailjs.send(
-        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
-        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
-        emailParams
-      )
-
-      // Also send to customer
-      await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_CUSTOMER_TEMPLATE_ID', // Create a separate template for customer
-        {
-          ...emailParams,
-          to_email: formData.email,
-        }
-      )
+      const orderNumber = `ORD-${Date.now()}`
 
       // Download PDF for customer
-      pdf.save(`Order-${selectedProduct.replace(/\s+/g, '-')}-${Date.now()}.pdf`)
+      pdf.save(`Order-${selectedProduct.replace(/\s+/g, '-')}-${orderNumber}.pdf`)
 
-      alert(`Thank you ${formData.name}! Your order for ${selectedProduct} has been confirmed. Order details have been sent to your email.`)
+      // Show success message with instructions
+      alert(
+        `✅ Order Confirmed!\n\n` +
+        `Thank you ${formData.name}!\n\n` +
+        `Order Number: ${orderNumber}\n` +
+        `Product: ${selectedProduct}\n` +
+        `Total: ${selectedProductPrice} × ${formData.quantity}\n\n` +
+        `📥 Your order slip has been downloaded.\n\n` +
+        `📧 Please email the order slip to:\n` +
+        `itsdurai4@gmail.com\n\n` +
+        `Or WhatsApp: +91 6369704741\n\n` +
+        `We will contact you within 24 hours!`
+      )
+
       setShowModal(false)
       setFormData({
         name: '',
@@ -159,8 +135,19 @@ export default function Products() {
         quantity: '1',
       })
     } catch (error) {
-      console.error('Error sending order:', error)
-      alert('There was an error processing your order. Please try again or contact us directly.')
+      console.error('Error generating order:', error)
+      alert(
+        '⚠️ Sorry, there was an error generating your order slip.\n\n' +
+        'Please contact us directly:\n' +
+        '📧 Email: itsdurai4@gmail.com\n' +
+        '📱 Phone: +91 6369704741\n' +
+        '💬 WhatsApp: +91 6369704741\n\n' +
+        `Order Details:\n` +
+        `Product: ${selectedProduct}\n` +
+        `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Phone: ${formData.phone}`
+      )
     } finally {
       setIsSubmitting(false)
     }
