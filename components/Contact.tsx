@@ -106,6 +106,20 @@ export default function Contact() {
                 Have a project in mind? I&apos;m always open to discussing new opportunities
                 and creative collaborations. Feel free to reach out!
               </p>
+              
+              {/* Custom Project CTA */}
+              <motion.a
+                href="/custom-project"
+                whileHover={{ scale: 1.05, x: 5 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-3 px-6 py-4 bg-gradient-to-r from-green-600 to-teal-600 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all mb-8"
+              >
+                <span className="text-2xl">🎯</span>
+                <div>
+                  <div className="font-bold">Need a Custom Project?</div>
+                  <div className="text-sm text-white/80">Chat with our AI assistant</div>
+                </div>
+              </motion.a>
             </div>
 
             {/* Contact cards */}

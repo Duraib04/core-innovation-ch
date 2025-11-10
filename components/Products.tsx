@@ -280,6 +280,33 @@ export default function Products() {
           </p>
         </motion.div>
 
+        {/* Custom Project Banner */}
+        <motion.a
+          href="/custom-project"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          whileHover={{ scale: 1.02, y: -5 }}
+          className="block max-w-4xl mx-auto mb-12 bg-gradient-to-r from-green-600 via-teal-600 to-cyan-600 rounded-2xl p-8 border-2 border-green-400/50 shadow-2xl shadow-green-500/30 hover:shadow-green-500/50 transition-all cursor-pointer"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="text-center md:text-left">
+              <h3 className="text-3xl font-bold mb-2 flex items-center gap-3 justify-center md:justify-start">
+                <span>🎯</span> Need Something Custom?
+              </h3>
+              <p className="text-lg text-white/90">
+                Can't find what you need? Let's build your dream project together! Our AI assistant will help design your perfect solution.
+              </p>
+            </div>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              className="px-8 py-4 bg-white text-green-600 rounded-full font-bold text-lg whitespace-nowrap shadow-lg"
+            >
+              Start Chat →
+            </motion.div>
+          </div>
+        </motion.a>
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.map((product, index) => (
             <motion.div

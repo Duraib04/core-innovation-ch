@@ -159,6 +159,15 @@ export default function Hero() {
             >
               View Products
             </motion.button>
+
+            <motion.a
+              href="/custom-project"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 rounded-full text-lg font-semibold hover:shadow-lg hover:shadow-green-500/50 transition-all"
+            >
+              🎯 Request Custom Project
+            </motion.a>
           </motion.div>
         </motion.div>
 
