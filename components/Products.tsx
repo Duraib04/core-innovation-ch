@@ -307,6 +307,17 @@ export default function Products() {
       badge: 'Gadget',
       color: 'from-yellow-400 to-orange-500',
     },
+    {
+      name: 'Real-Time Chat Website',
+      description: 'Full-featured real-time messaging platform with user authentication, chat rooms, and instant notifications.',
+      price: '₹1',
+      originalPrice: '₹5,000',
+      rating: 5.0,
+      reviews: 1,
+      image: 'https://images.unsplash.com/photo-1611606063065-ee7946f0787a?w=1200&q=80',
+      badge: '🎉 DEMO PRICE',
+      color: 'from-pink-500 to-rose-500',
+    },
   ]
 
   // Generate structured data for SEO
