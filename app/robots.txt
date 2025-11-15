@@ -1,0 +1,10 @@
+# Allow all search engines to crawl
+User-agent: *
+Allow: /
+
+# Disallow admin or private pages (if any in future)
+# Disallow: /admin
+# Disallow: /api
+
+# Sitemap location
+Sitemap: https://core-innovation-ch.vercel.app/sitemap.xml

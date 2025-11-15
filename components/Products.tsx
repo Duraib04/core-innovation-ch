@@ -292,8 +292,44 @@ export default function Products() {
     },
   ]
 
+  // Generate structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": products.map((product, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Product",
+        "name": product.name,
+        "description": product.description,
+        "image": product.image,
+        "offers": {
+          "@type": "Offer",
+          "price": product.price.replace(/[₹,]/g, ''),
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "seller": {
+            "@type": "Organization",
+            "name": "Core Innovation"
+          }
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": product.rating,
+          "reviewCount": product.reviews
+        }
+      }
+    }))
+  }
+
   return (
     <section id="products" className="min-h-screen py-20 px-6 relative overflow-hidden">
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <VideoBackground opacity={0.2} />
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
