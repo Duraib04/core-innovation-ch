@@ -122,9 +122,46 @@ export default function Products() {
     }
   }
 
-  const handleSendViaWhatsApp = () => {
+  const handleDirectUPIPayment = () => {
     const total = parseFloat((selectedProductPrice || '0').replace(/[₹,]/g, '')) * parseInt(formData.quantity || '1')
-    const upiId = process.env.NEXT_PUBLIC_UPI_ID || 'durai@paytm'
+    const upiId = process.env.NEXT_PUBLIC_UPI_ID || '6369704741@nyes'
+    
+    // Create UPI payment link
+    const upiLink = `upi://pay?pa=${upiId}&pn=Core Innovation&am=${total}&cu=INR&tn=Order ${orderNumber} - ${selectedProduct}`
+    
+    // Open UPI payment link
+    window.location.href = upiLink
+    
+    // Also open WhatsApp to confirm order
+    setTimeout(() => {
+      const message = `Hi! I just made UPI payment for:\n\n` +
+        `Order Number: ${orderNumber}\n` +
+        `Product: ${selectedProduct}\n` +
+        `Amount Paid: Rs. ${total.toLocaleString('en-IN')}\n` +
+        `UPI ID: ${upiId}\n\n` +
+        `Customer Details:\n` +
+        `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Address: ${formData.address}, ${formData.city}, ${formData.state} - ${formData.pincode}\n\n` +
+        `Please confirm my order!`
+      
+      window.open(`https://wa.me/916369704741?text=${encodeURIComponent(message)}`, '_blank')
+    }, 1000)
+    
+    setShowSendOptions(false)
+    resetForm()
+  }
+
+  const handleDownloadPDFAndSend = () => {
+    // Generate PDF
+    const pdf = generatePDF()
+    
+    // Download PDF for customer
+    pdf.save(`Order-${selectedProduct.replace(/\s+/g, '-')}-${orderNumber}.pdf`)
+    
+    const total = parseFloat((selectedProductPrice || '0').replace(/[₹,]/g, '')) * parseInt(formData.quantity || '1')
+    const upiId = process.env.NEXT_PUBLIC_UPI_ID || '6369704741@nyes'
     
     const message = `Hi! I'd like to place an order:\n\n` +
       `Order Number: ${orderNumber}\n` +
@@ -191,16 +228,11 @@ export default function Products() {
     setIsSubmitting(true)
 
     try {
-      // Generate PDF
-      const pdf = generatePDF()
+      // Generate order number
       const ordNum = `ORD-${Date.now()}`
       setOrderNumber(ordNum)
-      setGeneratedPDF(pdf)
 
-      // Download PDF for customer
-      pdf.save(`Order-${selectedProduct.replace(/\s+/g, '-')}-${ordNum}.pdf`)
-
-      // Show send options modal
+      // Close form modal and show payment options
       setShowModal(false)
       setShowSendOptions(true)
       setIsSubmitting(false)
@@ -739,7 +771,7 @@ export default function Products() {
               exit={{ scale: 0.9, opacity: 0, y: 50 }}
               className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-8 max-w-lg w-full"
             >
-              {/* Success Icon */}
+              {/* Payment Options Header */}
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -748,53 +780,73 @@ export default function Products() {
               >
                 <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <motion.div
-                    animate={{ rotate: [0, 360] }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                    className="text-4xl"
                   >
-                    ✓
+                    💳
                   </motion.div>
                 </div>
-                <h3 className="text-3xl font-bold text-green-400 mb-2">Order Confirmed! 🎉</h3>
+                <h3 className="text-3xl font-bold text-green-400 mb-2">Choose Payment Method</h3>
                 <p className="text-gray-300">Order #{orderNumber}</p>
-                <p className="text-sm text-gray-400 mt-2">PDF downloaded successfully!</p>
+                <p className="text-sm text-gray-400 mt-2">{selectedProduct} - {selectedProductPrice}</p>
               </motion.div>
 
-              {/* Send Options */}
+              {/* Payment Options */}
               <div className="space-y-4 mb-6">
-                <p className="text-center text-lg font-semibold mb-4">Send order details via:</p>
+                <p className="text-center text-lg font-semibold mb-4">Select payment option:</p>
                 
-                {/* WhatsApp */}
+                {/* Option 1: Direct UPI Payment */}
                 <motion.button
                   whileHover={{ scale: 1.02, x: 5 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={handleSendViaWhatsApp}
-                  className="w-full flex items-center gap-4 p-4 bg-green-600 hover:bg-green-500 rounded-xl transition-all group"
+                  onClick={handleDirectUPIPayment}
+                  className="w-full flex items-center gap-4 p-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl transition-all group border-2 border-purple-400"
                 >
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <FaWhatsapp className="text-3xl text-green-600" />
+                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-3xl">⚡</span>
                   </div>
                   <div className="text-left flex-1">
-                    <p className="font-bold text-lg">WhatsApp</p>
-                    <p className="text-sm text-green-100">Send to +91 6369704741</p>
+                    <p className="font-bold text-xl">Direct UPI Payment</p>
+                    <p className="text-sm text-purple-100">Pay instantly via Google Pay/PhonePe/Paytm</p>
+                    <p className="text-xs text-purple-200 mt-1">✓ Instant | ✓ No fees | ✓ Auto-confirm</p>
                   </div>
-                  <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                  <span className="text-3xl group-hover:translate-x-2 transition-transform">→</span>
                 </motion.button>
 
+                {/* Option 2: Download PDF & Send */}
+                <motion.button
+                  whileHover={{ scale: 1.02, x: 5 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleDownloadPDFAndSend}
+                  className="w-full flex items-center gap-4 p-5 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-500 hover:to-teal-500 rounded-xl transition-all group"
+                >
+                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center">
+                    <span className="text-3xl">📄</span>
+                  </div>
+                  <div className="text-left flex-1">
+                    <p className="font-bold text-xl">Download PDF & WhatsApp</p>
+                    <p className="text-sm text-green-100">Get order slip, pay later & send details</p>
+                    <p className="text-xs text-green-200 mt-1">✓ Get receipt | ✓ Manual payment | ✓ WhatsApp confirm</p>
+                  </div>
+                  <span className="text-3xl group-hover:translate-x-2 transition-transform">→</span>
+                </motion.button>
+              </div>
+
+              {/* Additional Options */}
+              <div className="space-y-3 border-t border-gray-700 pt-4">
+                <p className="text-center text-sm text-gray-400 mb-3">Or contact directly:</p>
+                
                 {/* Messenger */}
                 <motion.button
                   whileHover={{ scale: 1.02, x: 5 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSendViaMessenger}
-                  className="w-full flex items-center gap-4 p-4 bg-blue-600 hover:bg-blue-500 rounded-xl transition-all group"
+                  className="w-full flex items-center gap-3 p-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-all group"
                 >
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <FaFacebookMessenger className="text-3xl text-blue-600" />
-                  </div>
-                  <div className="text-left flex-1">
-                    <p className="font-bold text-lg">Messenger</p>
-                    <p className="text-sm text-blue-100">Chat on Facebook</p>
-                  </div>
-                  <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                  <FaFacebookMessenger className="text-2xl" />
+                  <span className="text-sm">Send via Messenger</span>
+                  <span className="ml-auto text-xl group-hover:translate-x-1 transition-transform">→</span>
                 </motion.button>
 
                 {/* Gmail */}
@@ -802,16 +854,11 @@ export default function Products() {
                   whileHover={{ scale: 1.02, x: 5 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleSendViaGmail}
-                  className="w-full flex items-center gap-4 p-4 bg-red-600 hover:bg-red-500 rounded-xl transition-all group"
+                  className="w-full flex items-center gap-3 p-3 bg-red-600 hover:bg-red-500 rounded-lg transition-all group"
                 >
-                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                    <FiMail className="text-3xl text-red-600" />
-                  </div>
-                  <div className="text-left flex-1">
-                    <p className="font-bold text-lg">Gmail</p>
-                    <p className="text-sm text-red-100">Email to itsdurai4@gmail.com</p>
-                  </div>
-                  <span className="text-2xl group-hover:translate-x-2 transition-transform">→</span>
+                  <FiMail className="text-2xl" />
+                  <span className="text-sm">Send via Email</span>
+                  <span className="ml-auto text-xl group-hover:translate-x-1 transition-transform">→</span>
                 </motion.button>
               </div>
 
