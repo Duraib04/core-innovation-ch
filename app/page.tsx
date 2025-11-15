@@ -7,12 +7,10 @@ import About from '@/components/About'
 import Contact from '@/components/Contact'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import AnimatedCursor from '@/components/AnimatedCursor'
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-black">
-      <AnimatedCursor />
       <Navigation />
       <Hero />
       <About />
