@@ -1,21 +1,11 @@
 'use client'
 
+import VideoBackground from './VideoBackground'
+
 export default function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden">
-      {/* Galaxy Video Background */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-30"
-        >
-          <source src="https://cdn.pixabay.com/video/2022/04/19/114761-700719864_large.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
-      </div>
+      <VideoBackground opacity={0.3} />
 
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div>

@@ -5,6 +5,8 @@ import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX, FiMail } from 'react-icons
 import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
 import { useState } from 'react'
 import jsPDF from 'jspdf'
+import VideoBackground from './VideoBackground'
+import Image from 'next/image'
 
 export default function Products() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -292,19 +294,7 @@ export default function Products() {
 
   return (
     <section id="products" className="min-h-screen py-20 px-6 relative overflow-hidden">
-      {/* Galaxy Video Background */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-20"
-        >
-          <source src="https://cdn.pixabay.com/video/2022/04/19/114761-700719864_large.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
-      </div>
+      <VideoBackground opacity={0.2} />
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -392,15 +382,21 @@ export default function Products() {
               >
                 {/* Image */}
                 <div className="relative h-56 overflow-hidden">
-                  <motion.img
+                  <motion.div
                     animate={{
                       scale: hoveredIndex === index ? 1.1 : 1,
                     }}
                     transition={{ duration: 0.4 }}
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
+                    className="w-full h-full"
+                  >
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </motion.div>
                   <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-40`} />
                   
                   {/* Badge */}
