@@ -1,0 +1,12 @@
+{
+  "name": "smartenergy-docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Product brochure PDF generator for SmartEnergy Analytics",
+  "scripts": {
+    "build:pdf": "node generate-pdf.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.3.0"
+  }
+}

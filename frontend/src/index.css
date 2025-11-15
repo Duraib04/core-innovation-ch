@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 215 16% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 16% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 16% 20%;
+
+    --primary: 221 83% 20%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 215 16% 20%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 212 100% 50%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 212 100% 50%;
+
+    --radius: 1rem;
+
+    /* Premium Energy Dashboard Colors */
+    --energy-primary: 221 83% 20%;     /* Deep Blue #1E3A8A */
+    --energy-secondary: 213 94% 68%;   /* Sky Blue #3B82F6 */
+    --energy-accent: 199 89% 48%;      /* Teal Blue #0EA5E9 */
+    --energy-success: 142 76% 36%;     /* Green for good status */
+    --energy-warning: 45 93% 47%;      /* Amber for warnings */
+    --energy-danger: 0 84% 60%;        /* Red for alerts */
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(221 83% 20%), hsl(213 94% 68%));
+    --gradient-accent: linear-gradient(135deg, hsl(213 94% 68%), hsl(199 89% 48%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 69% 58%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.8), hsl(0 0% 100% / 0.4));
+    
+    /* Glassmorphism */
+    --glass-background: hsl(0 0% 100% / 0.25);
+    --glass-border: hsl(0 0% 100% / 0.18);
+    --glass-shadow: 0 8px 32px 0 hsl(31 38% 5% / 0.1);
+    
+    /* Light Mode Shadows */
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.1);
+    --shadow-metric: 0 8px 25px -5px hsl(213 94% 68% / 0.3);
+    --shadow-glow: 0 0 20px hsl(213 94% 68% / 0.4);
+    
+    /* Light Mode Specific Colors */
+    --card-light: 0 0% 100%;
+    --card-accent-bg: hsl(var(--energy-primary) / 0.1);
+    --icon-accent: var(--energy-primary);
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 215 16% 20%;
+    --sidebar-primary: 221 83% 20%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 213 94% 95%;
+    --sidebar-accent-foreground: 221 83% 20%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 212 100% 50%;
+  }
+
+  .dark {
+    --background: 220 13% 9%;
+    --foreground: 220 9% 92%;
+
+    --card: 220 13% 12%;
+    --card-foreground: 220 9% 92%;
+
+    --popover: 220 13% 12%;
+    --popover-foreground: 220 9% 92%;
+
+    --primary: 199 89% 48%;
+    --primary-foreground: 220 13% 9%;
+
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 220 9% 92%;
+
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 9% 65%;
+
+    --accent: 213 94% 68%;
+    --accent-foreground: 220 13% 9%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 9% 92%;
+
+    --border: 220 13% 18%;
+    --input: 220 13% 15%;
+    --ring: 199 89% 48%;
+
+    /* Dark Mode Energy Colors with Neon Glow */
+    --energy-primary: 199 89% 48%;      /* Bright Cyan */
+    --energy-secondary: 213 94% 68%;    /* Bright Blue */
+    --energy-accent: 180 100% 50%;      /* Cyan Glow */
+    --energy-success: 142 71% 45%;      /* Green */
+    --energy-warning: 45 93% 47%;       /* Amber */
+    --energy-danger: 0 84% 60%;         /* Red */
+    
+    /* Dark Mode Gradients with Neon */
+    --gradient-primary: linear-gradient(135deg, hsl(199 89% 48%), hsl(213 94% 68%));
+    --gradient-accent: linear-gradient(135deg, hsl(213 94% 68%), hsl(180 100% 50%));
+    --gradient-success: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 69% 58%));
+    --gradient-card: linear-gradient(145deg, hsl(220 13% 12% / 0.9), hsl(220 13% 15% / 0.7));
+    
+    /* Neon Glassmorphism */
+    --glass-background: hsl(220 13% 12% / 0.8);
+    --glass-border: hsl(199 89% 48% / 0.3);
+    --glass-shadow: 0 8px 32px 0 hsl(199 89% 48% / 0.4);
+    
+    /* Neon Shadows and Glows */
+    --shadow-card: 0 4px 20px -2px hsl(199 89% 48% / 0.3);
+    --shadow-metric: 0 8px 25px -5px hsl(199 89% 48% / 0.4);
+    --shadow-glow: 0 0 40px hsl(199 89% 48% / 0.6);
+    --shadow-neon: 0 0 10px hsl(199 89% 48%), 0 0 20px hsl(199 89% 48%), 0 0 30px hsl(199 89% 48%);
+
+    --sidebar-background: 220 13% 10%;
+    --sidebar-foreground: 220 9% 92%;
+    --sidebar-primary: 199 89% 48%;
+    --sidebar-primary-foreground: 220 13% 9%;
+    --sidebar-accent: 220 13% 15%;
+    --sidebar-accent-foreground: 220 9% 92%;
+    --sidebar-border: 220 13% 18%;
+    --sidebar-ring: 199 89% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
