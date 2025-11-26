@@ -21,20 +21,14 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button
-              onClick={() => {
-                const element = document.getElementById('projects')
-                element?.scrollIntoView({ behavior: 'smooth' })
-              }}
+              onClick={() => window.location.href = '/projects'}
               className="px-8 py-4 bg-blue-600 text-white rounded-full text-lg font-semibold hover:bg-blue-700 transition-colors"
             >
               Explore Projects
             </button>
 
             <button
-              onClick={() => {
-                const element = document.getElementById('products')
-                element?.scrollIntoView({ behavior: 'smooth' })
-              }}
+              onClick={() => window.location.href = '/products'}
               className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-full text-lg font-semibold hover:bg-blue-600 hover:text-white transition-colors"
             >
               View Products
