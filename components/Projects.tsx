@@ -37,7 +37,7 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="min-h-screen py-20 px-6 relative overflow-hidden">
+    <section className="min-h-screen py-20 px-6 relative overflow-hidden">
       <VideoBackground opacity={0.2} />
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div

@@ -91,7 +91,7 @@ export default function Contact() {
   ]
 
   return (
-    <section id="contact" className="min-h-screen py-20 px-6 relative overflow-hidden">
+    <section className="min-h-screen py-20 px-6 relative overflow-hidden">
       <VideoBackground opacity={0.2} />
       {/* Animated background */}
       <div className="absolute inset-0">

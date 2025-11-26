@@ -4,7 +4,7 @@ import VideoBackground from './VideoBackground'
 
 export default function Hero() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-black text-white overflow-hidden">
       <VideoBackground opacity={0.3} />
 
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">

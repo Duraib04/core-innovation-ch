@@ -384,7 +384,7 @@ export default function Products() {
   }
 
   return (
-    <section id="products" className="min-h-screen py-20 px-6 relative overflow-hidden">
+    <section className="min-h-screen py-20 px-6 relative overflow-hidden">
       {/* Structured Data for SEO */}
       <script
         type="application/ld+json"
