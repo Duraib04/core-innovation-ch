@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : route === '/custom-project' ? 0.8 : 0.9,
   }))
 
-  // Products for indexing
+  // Individual product pages
   const products = [
     'smart-iot-industry-ecosystem',
     'iot-smart-lift-guard',
@@ -19,11 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     'iot-smart-door-lock-rfid',
     'iot-smart-water-planting-kit',
     'iot-smart-night-lamp',
+    'real-time-chat-website',
   ].map((product) => ({
-    url: `${baseUrl}#products`,
+    url: `${baseUrl}/products/${product}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
-    priority: 0.9,
+    priority: 0.8,
   }))
 
   return [...routes, ...products]

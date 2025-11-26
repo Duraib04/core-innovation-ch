@@ -1,12 +1,13 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX, FiMail } from 'react-icons/fi'
+import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX, FiMail, FiEye } from 'react-icons/fi'
 import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
 import { useState } from 'react'
 import jsPDF from 'jspdf'
 import VideoBackground from './VideoBackground'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export default function Products() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -275,6 +276,7 @@ export default function Products() {
   const products = [
     {
       name: 'Smart IoT Industry Ecosystem',
+      slug: 'smart-iot-industry-ecosystem',
       description: 'Connected industrial IoT environment for real-time monitoring, predictive maintenance and energy optimization.',
       price: '₹4,000',
       originalPrice: '₹6,000',
@@ -286,6 +288,7 @@ export default function Products() {
     },
     {
       name: 'IoT Smart Lift Guard',
+      slug: 'iot-smart-lift-guard',
       description: 'ESP32-based Wi-Fi lift access control with secure portal and password-gated activation.',
       price: '₹1,500',
       originalPrice: '₹2,500',
@@ -297,6 +300,7 @@ export default function Products() {
     },
     {
       name: 'Smart Home Gas Monitoring',
+      slug: 'smart-home-gas-monitoring',
       description: 'AI-driven gas detection with automatic ventilation control and voice command integration.',
       price: '₹6,000',
       originalPrice: '₹8,000',
@@ -308,6 +312,7 @@ export default function Products() {
     },
     {
       name: 'IoT Smart Door Lock (RFID)',
+      slug: 'iot-smart-door-lock-rfid',
       description: 'Secure RFID door lock with monitoring, access logs and remote dashboard control.',
       price: '₹500',
       originalPrice: '₹800',
@@ -319,6 +324,7 @@ export default function Products() {
     },
     {
       name: 'IoT Smart Water Planting Kit',
+      slug: 'iot-smart-water-planting-kit',
       description: 'Sensor-driven automated irrigation kit with AI optimizations for plant health.',
       price: '₹500',
       originalPrice: '₹800',
@@ -330,6 +336,7 @@ export default function Products() {
     },
     {
       name: 'IoT Smart Night Lamp',
+      slug: 'iot-smart-night-lamp',
       description: 'Ambient-sensing night lamp with IoT controls and customizable scenes.',
       price: '₹400',
       originalPrice: '₹600',
@@ -341,6 +348,7 @@ export default function Products() {
     },
     {
       name: 'Real-Time Chat Website',
+      slug: 'real-time-chat-website',
       description: 'Full-featured real-time messaging platform with user authentication, chat rooms, and instant notifications.',
       price: '₹1',
       originalPrice: '₹5,000',
@@ -471,103 +479,119 @@ export default function Products() {
               onHoverEnd={() => setHoveredIndex(null)}
               className="group relative perspective-1000"
             >
-              <motion.div
-                whileHover={{ y: -15, rotateY: 5, rotateX: 5 }}
-                transition={{ duration: 0.3 }}
-                className="bg-gradient-to-br from-gray-900 to-black rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/50 transition-all h-full transform-style-3d"
-              >
-                {/* Image */}
-                <div className="relative h-56 overflow-hidden">
-                  <motion.div
-                    animate={{
-                      scale: hoveredIndex === index ? 1.1 : 1,
-                    }}
-                    transition={{ duration: 0.4 }}
-                    className="w-full h-full"
-                  >
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </motion.div>
-                  <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-40`} />
-                  
-                  {/* Badge */}
-                  <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
-                    <FiZap className="text-yellow-400" />
-                    {product.badge}
-                  </div>
-
-                  {/* Wishlist button */}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="absolute top-4 right-4 w-10 h-10 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary/70 transition-colors"
-                  >
-                    <FiHeart />
-                  </motion.button>
-
-                  {/* Discount tag */}
-                  <div className="absolute bottom-4 right-4 bg-accent/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold">
-                    -50% OFF
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
-                    {product.name}
-                  </h3>
-
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => (
-                        <FiStar key={i} fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'} />
-                      ))}
-                    </div>
-                    <span className="text-sm text-gray-400">
-                      {product.rating} ({product.reviews.toLocaleString()} reviews)
-                    </span>
-                  </div>
-
-                  <p className="text-gray-400 mb-4 line-clamp-2">
-                    {product.description}
-                  </p>
-
-                  {/* Price */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-3xl font-bold text-primary">
-                      {product.price}
-                    </span>
-                    <span className="text-lg text-gray-500 line-through">
-                      {product.originalPrice}
-                    </span>
-                  </div>
-
-                  {/* CTA */}
-                  <motion.button
-                    onClick={() => handleAddToCart(product.name, product.price)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
-                  >
-                    <FiShoppingCart />
-                    Add to Cart
-                  </motion.button>
-                </div>
-
-                {/* Glow effect on hover */}
+              <Link href={`/products/${product.slug}`}>
                 <motion.div
-                  animate={{
-                    opacity: hoveredIndex === index ? 1 : 0,
-                  }}
-                  className={`absolute inset-0 bg-gradient-to-r ${product.color} opacity-0 blur-2xl -z-10`}
-                />
-              </motion.div>
+                  whileHover={{ y: -15, rotateY: 5, rotateX: 5 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gradient-to-br from-gray-900 to-black rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/50 transition-all h-full transform-style-3d cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative h-56 overflow-hidden">
+                    <motion.div
+                      animate={{
+                        scale: hoveredIndex === index ? 1.1 : 1,
+                      }}
+                      transition={{ duration: 0.4 }}
+                      className="w-full h-full"
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </motion.div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-40`} />
+                    
+                    {/* Badge */}
+                    <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
+                      <FiZap className="text-yellow-400" />
+                      {product.badge}
+                    </div>
+
+                    {/* Wishlist button */}
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={(e) => e.preventDefault()}
+                      className="absolute top-4 right-4 w-10 h-10 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary/70 transition-colors z-10"
+                    >
+                      <FiHeart />
+                    </motion.button>
+
+                    {/* Discount tag */}
+                    <div className="absolute bottom-4 right-4 bg-accent/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold">
+                      -50% OFF
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
+                      {product.name}
+                    </h3>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex text-yellow-400">
+                        {[...Array(5)].map((_, i) => (
+                          <FiStar key={i} fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'} />
+                        ))}
+                      </div>
+                      <span className="text-sm text-gray-400">
+                        {product.rating} ({product.reviews.toLocaleString()} reviews)
+                      </span>
+                    </div>
+
+                    <p className="text-gray-400 mb-4 line-clamp-2">
+                      {product.description}
+                    </p>
+
+                    {/* Price */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="text-3xl font-bold text-primary">
+                        {product.price}
+                      </span>
+                      <span className="text-lg text-gray-500 line-through">
+                        {product.originalPrice}
+                      </span>
+                    </div>
+
+                    {/* CTA Buttons */}
+                    <div className="grid grid-cols-2 gap-3">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full py-3 bg-primary/20 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-primary/30 transition-colors border border-primary/40"
+                      >
+                        <FiEye />
+                        View Details
+                      </motion.button>
+                      <motion.button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          handleAddToCart(product.name, product.price)
+                        }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors z-10 relative"
+                      >
+                        <FiShoppingCart />
+                        Buy Now
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+
+              {/* Glow effect on hover */}
+              <motion.div
+                animate={{
+                  opacity: hoveredIndex === index ? 1 : 0,
+                }}
+                className={`absolute inset-0 bg-gradient-to-r ${product.color} opacity-0 blur-2xl -z-10`}
+              />
             </motion.div>
           ))}
         </div>
