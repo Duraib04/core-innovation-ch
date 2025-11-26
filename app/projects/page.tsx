@@ -1,14 +1,14 @@
 'use client'
 
-import Hero from '@/components/Hero'
+import Projects from '@/components/Projects'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 
-export default function Home() {
+export default function ProjectsPage() {
   return (
     <main className="min-h-screen bg-black">
       <Navigation />
-      <Hero />
+      <Projects />
       <Footer />
     </main>
   )

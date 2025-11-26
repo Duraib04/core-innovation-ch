@@ -4,11 +4,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://core-innovation-ch.vercel.app'
   
   // Static pages
-  const routes = ['', '/custom-project'].map((route) => ({
+  const routes = ['', '/about', '/projects', '/products', '/contact', '/custom-project'].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: route === '' ? 1 : 0.8,
+    priority: route === '' ? 1 : route === '/custom-project' ? 0.8 : 0.9,
   }))
 
   // Products for indexing

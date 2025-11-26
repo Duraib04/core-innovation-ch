@@ -2,38 +2,28 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState('home')
   const [showContactMenu, setShowContactMenu] = useState(false)
+  const router = useRouter()
+  const pathname = usePathname()
 
   const handleWhatsApp = () => {
-    const phoneNumber = '916369704741' // Your number without + or spaces
+    const phoneNumber = '916369704741'
     const message = encodeURIComponent('Hi! I am interested in your products/services.')
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank')
   }
 
   const handleMessenger = () => {
-    // Replace with your Facebook Page ID or username
     window.open('https://m.me/durai.b.473058323', '_blank')
   }
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50)
-      
-      const sections = ['home', 'about', 'projects', 'products', 'contact']
-      const current = sections.find(section => {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 100 && rect.bottom >= 100
-        }
-        return false
-      })
-      if (current) setActiveSection(current)
     }
 
     const handleClickOutside = (e: MouseEvent) => {
@@ -52,16 +42,15 @@ export default function Navigation() {
   }, [])
 
   const navItems = [
-    { name: 'Home', id: 'home' },
-    { name: 'About', id: 'about' },
-    { name: 'Projects', id: 'projects' },
-    { name: 'Products', id: 'products' },
-    { name: 'Contact', id: 'contact' },
+    { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Products', path: '/products' },
+    { name: 'Contact', path: '/contact' },
   ]
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    element?.scrollIntoView({ behavior: 'smooth' })
+  const navigateToPage = (path: string) => {
+    router.push(path)
   }
 
   return (
@@ -78,6 +67,7 @@ export default function Navigation() {
         <div className="flex items-center justify-between">
           <motion.div
             whileHover={{ scale: 1.05 }}
+            onClick={() => navigateToPage('/')}
             className="text-2xl font-bold glow cursor-pointer"
           >
             DURAI
@@ -86,18 +76,18 @@ export default function Navigation() {
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
               <motion.button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                key={item.path}
+                onClick={() => navigateToPage(item.path)}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.1 }}
                 className={`relative px-4 py-2 text-sm font-medium transition-colors ${
-                  activeSection === item.id ? 'text-primary' : 'text-gray-300'
+                  pathname === item.path ? 'text-primary' : 'text-gray-300'
                 }`}
               >
                 {item.name}
-                {activeSection === item.id && (
+                {pathname === item.path && (
                   <motion.div
                     layoutId="activeSection"
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent"
