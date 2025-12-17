@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { FiStar, FiShoppingCart, FiHeart, FiShare2, FiTruck, FiShield, FiRefreshCw } from 'react-icons/fi'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import Image from 'next/image'
@@ -30,12 +31,13 @@ interface ProductPageProps {
 }
 
 export default function ProductPage({ product }: ProductPageProps) {
+  const router = useRouter()
   const [selectedImage, setSelectedImage] = useState(0)
   const [quantity, setQuantity] = useState(1)
 
   const handleBuyNow = () => {
-    // Scroll to order form or open modal
-    window.location.href = `/products?order=${product.id}`
+    // Go back to products home so user can place order there
+    router.push('/products')
   }
 
   return (
