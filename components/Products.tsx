@@ -321,7 +321,7 @@ export default function Products() {
       originalPrice: '₹8,000',
       rating: 4.8,
       reviews: 213,
-      image: '/images/gas-monitoring.jpg',
+      image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=80',
       badge: 'Safety',
       color: 'from-orange-500 to-red-500',
     },
