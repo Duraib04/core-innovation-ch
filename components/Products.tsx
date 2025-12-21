@@ -140,10 +140,11 @@ export default function Products() {
 
   const handleDirectUPIPayment = () => {
     const total = parseFloat((selectedProductPrice || '0').replace(/[₹,]/g, '')) * parseInt(formData.quantity || '1')
+    const payableNow = Math.max(4000, total) // enforce minimum UPI charge of ₹4000
     const upiId = process.env.NEXT_PUBLIC_UPI_ID || '6369704741@nyes'
     
     // Create UPI payment link
-    const upiLink = `upi://pay?pa=${upiId}&pn=Core Innovation&am=${total}&cu=INR&tn=Order ${orderNumber} - ${selectedProduct}`
+    const upiLink = `upi://pay?pa=${upiId}&pn=Core Innovation&am=${payableNow}&cu=INR&tn=Order ${orderNumber} - ${selectedProduct}`
     
     // Open UPI payment link
     window.location.href = upiLink
@@ -153,7 +154,8 @@ export default function Products() {
       const message = `Hi! I just made UPI payment for:\n\n` +
         `Order Number: ${orderNumber}\n` +
         `Product: ${selectedProduct}\n` +
-        `Amount Paid: Rs. ${total.toLocaleString('en-IN')}\n` +
+        `Amount Paid Now: Rs. ${payableNow.toLocaleString('en-IN')}\n` +
+        `${total < 4000 ? `Note: Minimum UPI charge is Rs. 4,000 for low-value orders. Original total: Rs. ${total.toLocaleString('en-IN')}. Balance will be adjusted in the final invoice/refund.` : ''}\n` +
         `UPI ID: ${upiId}\n\n` +
         `Customer Details:\n` +
         `Name: ${formData.name}\n` +
