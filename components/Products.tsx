@@ -3,13 +3,15 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX, FiMail, FiEye } from 'react-icons/fi'
 import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import jsPDF from 'jspdf'
 import VideoBackground from './VideoBackground'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Products() {
+  const searchParams = useSearchParams()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [showModal, setShowModal] = useState(false)
   const [showSendOptions, setShowSendOptions] = useState(false)
@@ -28,6 +30,19 @@ export default function Products() {
     pincode: '',
     quantity: '1',
   })
+
+  // Open modal automatically when arriving with ?order=slug
+  useEffect(() => {
+    const orderSlug = searchParams.get('order')
+    if (!orderSlug) return
+
+    const matchedProduct = products.find((p) => p.slug === orderSlug)
+    if (matchedProduct) {
+      setSelectedProduct(matchedProduct.name)
+      setSelectedProductPrice(matchedProduct.price)
+      setShowModal(true)
+    }
+  }, [searchParams])
 
   const handleAddToCart = (productName: string, productPrice: string) => {
     setSelectedProduct(productName)
@@ -306,7 +321,7 @@ export default function Products() {
       originalPrice: '₹8,000',
       rating: 4.8,
       reviews: 213,
-      image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=80',
+      image: '/images/gas-monitoring.jpg',
       badge: 'Safety',
       color: 'from-orange-500 to-red-500',
     },

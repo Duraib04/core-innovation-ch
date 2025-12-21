@@ -36,8 +36,8 @@ export default function ProductPage({ product }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1)
 
   const handleBuyNow = () => {
-    // Go back to products home so user can place order there
-    router.push('/products')
+    // Open products page with pre-selected product to show order modal
+    router.push(`/products?order=${product.id}`)
   }
 
   return (
