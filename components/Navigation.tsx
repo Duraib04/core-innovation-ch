@@ -66,7 +66,7 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold glow cursor-pointer"
             >
-              DURAI
+              DD-SHOP
             </motion.div>
           </Link>
 
