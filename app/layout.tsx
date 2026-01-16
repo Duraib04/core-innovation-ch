@@ -71,6 +71,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#6366f1" />
+        <meta name="google-site-verification" content="google27a92eae85922e3d" />
         <link rel="canonical" href="https://core-innovation-ch.vercel.app" />
       </head>
       <body className={inter.className}>
