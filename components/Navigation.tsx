@@ -5,10 +5,12 @@ import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
+import Image from 'next/image'
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [showContactMenu, setShowContactMenu] = useState(false)
+  const [showLogoIntro, setShowLogoIntro] = useState(false)
   const pathname = usePathname()
 
   const handleWhatsApp = () => {
@@ -50,6 +52,7 @@ export default function Navigation() {
   ]
 
   return (
+    <>
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -61,14 +64,38 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold glow cursor-pointer"
-            >
-              DD-SHOP
-            </motion.div>
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" aria-label="Home">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="cursor-pointer flex items-center overflow-hidden rounded-xl"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setShowLogoIntro(true)
+                }}
+              >
+                {/* Mobile: brief logo */}
+                <Image
+                  src="/images/logo-brief.jpeg"
+                  alt="DD-SHOP brief logo"
+                  width={120}
+                  height={36}
+                  className="md:hidden h-9 w-auto object-contain mix-blend-multiply"
+                  priority
+                />
+                {/* Desktop: full logo */}
+                <Image
+                  src="/images/logo.jpeg"
+                  alt="DD-SHOP logo"
+                  width={160}
+                  height={40}
+                  className="hidden md:block h-10 w-auto object-contain mix-blend-multiply"
+                  priority
+                />
+              </motion.div>
+            </Link>
+            {/* Intro button removed; logo click opens intro modal */}
+          </div>
 
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item, index) => (
@@ -146,5 +173,62 @@ export default function Navigation() {
         </div>
       </div>
     </motion.nav>
+
+    {/* Logo Intro Modal (triggered by logo click) */}
+    <AnimatePresence>
+      {showLogoIntro && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={() => setShowLogoIntro(false)}
+        >
+          <motion.div
+            initial={{ scale: 0.6, opacity: 0, y: -20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 50 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+            className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-6 max-w-3xl w-full shadow-lg shadow-primary/20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold glow">Logo Intro</h3>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowLogoIntro(false)}
+                className="text-gray-400 hover:text-white"
+                aria-label="Close"
+              >
+                ✖
+              </motion.button>
+            </div>
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 26, delay: 0.05 }}
+              className="aspect-video w-full overflow-hidden rounded-xl border border-primary/30"
+            >
+              {/* Animated overlay shimmer */}
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />
+              <video
+                src="/images/intro%20video.mp4"
+                controls={false}
+                autoPlay
+                muted
+                playsInline
+                className="w-full h-full"
+                poster="/images/logo.jpeg"
+              />
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   )
 }
+
+// Logo Intro Modal
+// Rendered at the end to avoid layout shifts

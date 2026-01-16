@@ -549,18 +549,6 @@ export default function Products() {
                       {product.name}
                     </h3>
 
-                    {/* Rating */}
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="flex text-yellow-400">
-                        {[...Array(5)].map((_, i) => (
-                          <FiStar key={i} fill={i < Math.floor(product.rating) ? 'currentColor' : 'none'} />
-                        ))}
-                      </div>
-                      <span className="text-sm text-gray-400">
-                        {product.rating} ({product.reviews.toLocaleString()} reviews)
-                      </span>
-                    </div>
-
                     <p className="text-gray-400 mb-4 line-clamp-2">
                       {product.description}
                     </p>
@@ -836,6 +824,10 @@ export default function Products() {
               {/* Payment Options */}
               <div className="space-y-4 mb-6">
                 <p className="text-center text-lg font-semibold mb-4">Select payment option:</p>
+
+                <div className="text-center text-sm text-amber-200 bg-amber-500/10 border border-amber-400/40 rounded-lg px-4 py-3">
+                  UPI has a ₹4,000 minimum. If your cart is below that, UPI will still charge ₹4,000. For smaller orders, pick the PDF/WhatsApp option and we&apos;ll confirm the exact amount.
+                </div>
                 
                 {/* Option 1: Direct UPI Payment */}
                 <motion.button
@@ -848,9 +840,9 @@ export default function Products() {
                     <span className="text-3xl">⚡</span>
                   </div>
                   <div className="text-left flex-1">
-                    <p className="font-bold text-xl">Direct UPI Payment</p>
+                    <p className="font-bold text-xl">Direct UPI Payment (₹4,000 min)</p>
                     <p className="text-sm text-purple-100">Pay instantly via Google Pay/PhonePe/Paytm</p>
-                    <p className="text-xs text-purple-200 mt-1">✓ Instant | ✓ No fees | ✓ Auto-confirm</p>
+                    <p className="text-xs text-purple-200 mt-1">✓ Instant | ✓ No fees | ✓ Auto-confirm | Min charge ₹4,000</p>
                   </div>
                   <span className="text-3xl group-hover:translate-x-2 transition-transform">→</span>
                 </motion.button>
@@ -867,7 +859,7 @@ export default function Products() {
                   </div>
                   <div className="text-left flex-1">
                     <p className="font-bold text-xl">Download PDF & WhatsApp</p>
-                    <p className="text-sm text-green-100">Get order slip, pay later & send details</p>
+                    <p className="text-sm text-green-100">Best for orders below ₹4,000 — pay later & send details</p>
                     <p className="text-xs text-green-200 mt-1">✓ Get receipt | ✓ Manual payment | ✓ WhatsApp confirm</p>
                   </div>
                   <span className="text-3xl group-hover:translate-x-2 transition-transform">→</span>
