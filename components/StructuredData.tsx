@@ -6,8 +6,8 @@ export default function StructuredData() {
     "@type": "Organization",
     "name": "DD-SHOP",
     "alternateName": "Core Innovation",
-    "url": "https://core-innovation-ch.vercel.app",
-    "logo": "https://core-innovation-ch.vercel.app/images/logo.jpeg",
+    "url": "https://dd-products.vercel.app",
+    "logo": "https://dd-products.vercel.app/images/logo.jpeg",
     "description": "Leading provider of IoT products, ready-made projects, software development, and custom IoT solutions. Smart home automation, Industry 4.0, ESP32/Arduino projects.",
     "email": "contact@ddshop.com",
     "contactPoint": {
@@ -26,13 +26,13 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "Store",
     "name": "DD-SHOP - IoT Products & Custom Development",
-    "image": "https://core-innovation-ch.vercel.app/images/logo.jpeg",
+    "image": "https://dd-products.vercel.app/images/logo.jpeg",
     "description": "Buy IoT products, ready-made projects, and custom development services. Smart home automation, Industry 4.0 solutions, ESP32/Arduino projects, web & mobile apps.",
     "address": {
       "@type": "PostalAddress",
       "addressCountry": "IN"
     },
-    "url": "https://core-innovation-ch.vercel.app",
+    "url": "https://dd-products.vercel.app",
     "telephone": "+91-6369704741",
     "priceRange": "₹₹",
     "openingHours": "Mo-Su 00:00-23:59",
@@ -96,10 +96,10 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "DD-SHOP",
-    "url": "https://core-innovation-ch.vercel.app",
+    "url": "https://dd-products.vercel.app",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://core-innovation-ch.vercel.app/products?search={search_term_string}",
+      "target": "https://dd-products.vercel.app/products?search={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }

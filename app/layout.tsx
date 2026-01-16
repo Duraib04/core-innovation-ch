@@ -7,7 +7,7 @@ import StructuredData from '@/components/StructuredData'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://core-innovation-ch.vercel.app'),
+  metadataBase: new URL('https://dd-products.vercel.app'),
   title: {
     default: 'Buy IoT Products & Projects Online | Custom IoT Solutions | DD-SHOP',
     template: '%s | DD-SHOP - IoT Products & Custom Development'
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Buy IoT Products & Projects Online | Custom IoT Development',
     description: 'Shop IoT products, ready-made projects, and get custom development services. Smart home, Industry 4.0, ESP32/Arduino, web & mobile apps. Custom solutions for your needs.',
-    url: 'https://core-innovation-ch.vercel.app',
+    url: 'https://dd-products.vercel.app',
     siteName: 'DD-SHOP - IoT Products & Custom Development',
     locale: 'en_US',
     type: 'website',
@@ -72,7 +72,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#6366f1" />
         <meta name="google-site-verification" content="google27a92eae85922e3d" />
-        <link rel="canonical" href="https://core-innovation-ch.vercel.app" />
+        <link rel="canonical" href="https://dd-products.vercel.app" />
       </head>
       <body className={inter.className}>
         <Analytics />

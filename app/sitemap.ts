@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://core-innovation-ch.vercel.app'
+  const baseUrl = 'https://dd-products.vercel.app'
   
   // Static pages
   const routes = ['', '/about', '/projects', '/products', '/contact', '/custom-project'].map((route) => ({
