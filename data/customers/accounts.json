@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "cust_7b601383-39a9-4170-8c79-5da3c4a251bd",
+      "name": "lakshmi",
+      "email": "lakshmi01@gmail.com",
+      "passwordHash": "396ccab90e60b53788ce25b42e6559a419c1025c5ac34b342bcea3eafa01cf541be778b85ecc36428bc7a1c859253404bf549f20af4a6dbf173a312b85f97670",
+      "salt": "05f4780884c3ce55098cc990a9eda3a2",
+      "createdAt": "2026-01-16T07:38:51.603Z"
+    }
+  ]
+}

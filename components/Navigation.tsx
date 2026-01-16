@@ -11,6 +11,7 @@ export default function Navigation() {
   const [scrolled, setScrolled] = useState(false)
   const [showContactMenu, setShowContactMenu] = useState(false)
   const [showLogoIntro, setShowLogoIntro] = useState(false)
+  const [customerSession, setCustomerSession] = useState<{ name?: string; email?: string } | null>(null)
   const pathname = usePathname()
 
   const handleWhatsApp = () => {
@@ -41,6 +42,27 @@ export default function Navigation() {
       window.removeEventListener('scroll', handleScroll)
       document.removeEventListener('click', handleClickOutside)
     }
+  }, [])
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const res = await fetch('/api/customer/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'session' })
+        })
+        const data = await res.json()
+        if (res.ok && data.authenticated) {
+          setCustomerSession(data.user)
+        } else {
+          setCustomerSession(null)
+        }
+      } catch {
+        setCustomerSession(null)
+      }
+    }
+    fetchSession()
   }, [])
 
   const navItems = [
@@ -123,8 +145,44 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Let's Talk Button with Dropdown */}
-          <div className="relative contact-menu-container">
+          {/* Customer Auth + Let's Talk */}
+          <div className="flex items-center gap-3">
+            {/* Customer auth buttons / profile */}
+            {customerSession ? (
+              <Link href="/customer/profile" aria-label="Customer Profile">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-4 py-2 rounded-full font-semibold text-sm bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                >
+                  Profile
+                </motion.button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/customer/login" aria-label="Customer Login">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-4 py-2 rounded-full font-semibold text-sm bg-gray-800 text-gray-200 border border-gray-700 hover:border-primary/60 hover:text-white transition-colors"
+                  >
+                    Customer Login
+                  </motion.button>
+                </Link>
+                <Link href="/customer/signup" aria-label="Customer Signup">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-4 py-2 rounded-full font-semibold text-sm bg-green-600 text-white hover:bg-green-700 transition-colors"
+                  >
+                    Sign Up
+                  </motion.button>
+                </Link>
+              </>
+            )}
+
+            {/* Let's Talk Button with Dropdown */}
+            <div className="relative contact-menu-container">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -169,6 +227,7 @@ export default function Navigation() {
                 </motion.div>
               )}
             </AnimatePresence>
+            </div>
           </div>
         </div>
       </div>
