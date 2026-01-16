@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: '%s | DD-SHOP - IoT Products & Custom Development'
   },
   description: 'Buy IoT products, ready-made projects, and custom development services. Smart home automation, Industry 4.0 solutions, ESP32/Arduino projects, web & mobile apps. Custom IoT hardware and software tailored to your needs.',
-  keywords: ['buy iot products online', 'iot products for sale', 'iot project selling', 'smart home products', 'iot hardware', 'custom iot solutions', 'iot development services', 'esp32 projects', 'arduino products', 'smart automation', 'industry 4.0', 'iot software development', 'custom electronics', 'ready-made iot projects', 'iot shop', 'buy smart devices', 'iot products india', 'custom project development', 'web development', 'mobile app development'],
+  keywords: ['buy iot products online', 'iot products for sale', 'iot project selling', 'smart home products', 'iot hardware', 'custom iot solutions', 'iot development services', 'esp32 projects', 'arduino products', 'smart automation', 'industry 4.0', 'iot software development', 'custom electronics', 'ready-made iot projects', 'iot shop', 'buy smart devices', 'iot products india', 'custom project development', 'web development', 'mobile app development', 'DD shop', 'DD iot', 'DD products', 'DD-SHOP', 'Durai', 'Durai iot', 'Durai products', 'Durai shop', 'Durai iot products', 'Durai electronics', 'DD and durai iot', 'durai or dd', 'DD iot solutions', 'durai custom development'],
   authors: [{ name: 'Durai', url: 'https://core-innovation-ch.vercel.app' }],
   creator: 'Durai',
   publisher: 'Core Innovation',
