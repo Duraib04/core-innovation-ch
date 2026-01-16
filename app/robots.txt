@@ -7,4 +7,4 @@ Allow: /
 # Disallow: /api
 
 # Sitemap location
-Sitemap: https://core-innovation-ch.vercel.app/sitemap.xml
+Sitemap: https://dd-products.vercel.app/sitemap.xml
