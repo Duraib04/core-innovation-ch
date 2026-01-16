@@ -31,11 +31,10 @@ export default function About() {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-bold mb-6 glow">
-            About <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Me</span>
+            About <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">DD-SHOP</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            I&apos;m Durai, a passionate innovator dedicated to creating exceptional digital experiences
-            that push the boundaries of what&apos;s possible.
+            Your trusted source for <strong>IoT products</strong>, <strong>ready-made projects</strong>, <strong>software solutions</strong>, and <strong>custom development services</strong>.
           </p>
         </motion.div>
 
@@ -44,19 +43,53 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="relative group mb-20 max-w-4xl mx-auto"
+          className="relative group mb-20 max-w-5xl mx-auto"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
           <div className="relative bg-gradient-to-br from-gray-900 to-black p-8 rounded-2xl border border-primary/20">
-            <h3 className="text-3xl font-bold mb-4 glow">My Mission</h3>
-            <p className="text-gray-300 leading-relaxed mb-4">
-              To deliver cutting-edge solutions that combine stunning design with powerful functionality.
-              Every project is crafted with meticulous attention to detail and a commitment to excellence.
-            </p>
-            <p className="text-gray-300 leading-relaxed">
-              With years of experience in the industry, I specialize in transforming ideas into
-              reality through innovative technology and creative problem-solving.
-            </p>
+            <h3 className="text-3xl font-bold mb-6 glow">What We Offer</h3>
+            
+            <div className="space-y-6">
+              <div className="flex gap-4">
+                <span className="text-3xl">🛒</span>
+                <div>
+                  <h4 className="text-xl font-bold text-primary mb-2">IoT Products for Sale</h4>
+                  <p className="text-gray-300 leading-relaxed">
+                    Browse our collection of ready-to-use IoT devices, smart home products, ESP32/Arduino-based solutions, and industry-grade automation hardware. Buy quality IoT products with reliable support.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <span className="text-3xl">📦</span>
+                <div>
+                  <h4 className="text-xl font-bold text-secondary mb-2">Ready-Made Projects</h4>
+                  <p className="text-gray-300 leading-relaxed">
+                    Complete IoT project solutions for home automation, Industry 4.0, RFID systems, gas monitoring, and smart devices. Plug-and-play projects with full documentation and support.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <span className="text-3xl">⚙️</span>
+                <div>
+                  <h4 className="text-xl font-bold text-accent mb-2">Custom Development Services</h4>
+                  <p className="text-gray-300 leading-relaxed">
+                    Need something specific? We design and build custom IoT hardware and software tailored to your exact requirements. From concept to deployment, we bring your ideas to life.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <span className="text-3xl">💻</span>
+                <div>
+                  <h4 className="text-xl font-bold text-primary mb-2">Software Development</h4>
+                  <p className="text-gray-300 leading-relaxed">
+                    Professional web development, mobile applications, e-commerce solutions, and cloud integration. Modern tech stack with seamless user experiences.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 

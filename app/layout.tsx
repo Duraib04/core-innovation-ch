@@ -2,17 +2,18 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
+import StructuredData from '@/components/StructuredData'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://core-innovation-ch.vercel.app'),
   title: {
-    default: 'Durai - Innovation & Excellence | Core Innovation',
-    template: '%s | Core Innovation'
+    default: 'Buy IoT Products & Projects Online | Custom IoT Solutions | DD-SHOP',
+    template: '%s | DD-SHOP - IoT Products & Custom Development'
   },
-  description: 'Discover cutting-edge IoT projects and premium smart products by Durai. Software development, hardware solutions, and innovative technology. Smart Home, Industry 4.0, and custom IoT solutions.',
-  keywords: ['IoT', 'Smart Products', 'Innovation', 'Technology', 'Durai', 'Core Innovation', 'Hardware', 'Software', 'Smart Home', 'Industry 4.0', 'IoT Solutions', 'ESP32', 'Arduino', 'RFID', 'Automation', 'AI', 'Machine Learning', 'Web Development', 'Mobile Apps'],
+  description: 'Buy IoT products, ready-made projects, and custom development services. Smart home automation, Industry 4.0 solutions, ESP32/Arduino projects, web & mobile apps. Custom IoT hardware and software tailored to your needs.',
+  keywords: ['buy iot products online', 'iot products for sale', 'iot project selling', 'smart home products', 'iot hardware', 'custom iot solutions', 'iot development services', 'esp32 projects', 'arduino products', 'smart automation', 'industry 4.0', 'iot software development', 'custom electronics', 'ready-made iot projects', 'iot shop', 'buy smart devices', 'iot products india', 'custom project development', 'web development', 'mobile app development'],
   authors: [{ name: 'Durai', url: 'https://core-innovation-ch.vercel.app' }],
   creator: 'Durai',
   publisher: 'Core Innovation',
@@ -22,10 +23,10 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: 'Durai - Innovation & Excellence | Core Innovation',
-    description: 'Cutting-edge IoT projects and premium smart products. Industry 4.0, Smart Home automation, and custom technology solutions.',
+    title: 'Buy IoT Products & Projects Online | Custom IoT Development',
+    description: 'Shop IoT products, ready-made projects, and get custom development services. Smart home, Industry 4.0, ESP32/Arduino, web & mobile apps. Custom solutions for your needs.',
     url: 'https://core-innovation-ch.vercel.app',
-    siteName: 'Core Innovation',
+    siteName: 'DD-SHOP - IoT Products & Custom Development',
     locale: 'en_US',
     type: 'website',
     images: [
@@ -39,8 +40,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Durai - Innovation & Excellence | Core Innovation',
-    description: 'Cutting-edge IoT projects and premium smart products',
+    title: 'Buy IoT Products & Projects | Custom Development Services',
+    description: 'Shop IoT products, ready-made projects, custom IoT & software development',
     creator: '@Durai4444',
     images: ['https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80'],
   },
@@ -74,6 +75,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Analytics />
+        <StructuredData />
         {children}
       </body>
     </html>

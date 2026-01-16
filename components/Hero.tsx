@@ -9,14 +9,18 @@ export default function Hero() {
 
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <div>
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white">
-            Innovation
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-white leading-tight">
+            Buy IoT Products & Projects
             <br />
-            Meets Excellence
+            <span className="text-4xl md:text-6xl bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Software Solutions & Custom Development</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
-            Discover cutting-edge projects and premium products crafted with passion and precision
+          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
+            Your one-stop shop for <strong>IoT products</strong>, <strong>ready-made projects</strong>, <strong>software development</strong>, and <strong>custom IoT solutions</strong> tailored to your needs.
+          </p>
+          
+          <p className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto">
+            ✅ Smart Home Automation • Industry 4.0 Solutions • Custom IoT Hardware & Software • Web & Mobile Apps
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
