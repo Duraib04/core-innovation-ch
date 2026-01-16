@@ -67,14 +67,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#6366f1" />
         <meta name="google-site-verification" content="google27a92eae85922e3d" />
         <link rel="canonical" href="https://dd-products.vercel.app" />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <Analytics />
         <StructuredData />
         {children}
