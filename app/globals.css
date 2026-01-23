@@ -25,6 +25,13 @@ body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-start-rgb));
   overflow-x: hidden;
+  padding-top: 56px;
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-top: 72px;
+  }
 }
 
 .mono-theme,
