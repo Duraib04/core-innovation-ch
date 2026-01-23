@@ -8,6 +8,14 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://dd-products.vercel.app'),
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', sizes: '32x32' },
+      { url: '/favicon.svg', sizes: '16x16' },
+    ],
+    apple: { url: '/apple-icon.svg', type: 'image/svg+xml' },
+  },
   title: {
     default: 'Buy IoT Products & Projects Online | Custom IoT Solutions | DD-SHOP',
     template: '%s | DD-SHOP - IoT Products & Custom Development'
@@ -94,6 +102,8 @@ export default function RootLayout({
         <meta name="theme-color" content="#6366f1" />
         <meta name="google-site-verification" content="google27a92eae85922e3d" />
         <link rel="canonical" href="https://dd-products.vercel.app" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-icon.svg" />
       </head>
       <body className={`${inter.className} mono-theme`} suppressHydrationWarning>
         <Analytics />
