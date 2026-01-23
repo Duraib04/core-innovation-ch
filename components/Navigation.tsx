@@ -100,18 +100,18 @@ export default function Navigation() {
                 <Image
                   src="/images/logo-brief.jpeg"
                   alt="DD-SHOP brief logo"
-                  width={120}
-                  height={36}
-                  className="md:hidden h-9 w-auto object-contain mix-blend-multiply"
+                  width={180}
+                  height={54}
+                  className="md:hidden h-14 sm:h-16 w-auto object-contain mix-blend-multiply"
                   priority
                 />
                 {/* Desktop: full logo */}
                 <Image
                   src="/images/logo.jpeg"
                   alt="DD-SHOP logo"
-                  width={160}
-                  height={40}
-                  className="hidden md:block h-10 w-auto object-contain mix-blend-multiply"
+                  width={280}
+                  height={70}
+                  className="hidden md:block h-16 lg:h-20 w-auto object-contain mix-blend-multiply"
                   priority
                 />
               </motion.div>
