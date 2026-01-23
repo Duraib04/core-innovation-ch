@@ -241,7 +241,7 @@ export default function DdSQLPage() {
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
       <div className="bg-gradient-to-r from-gray-900 to-black border-b border-primary/20 p-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="w-full px-4 md:px-6 flex justify-between items-center">
           <h1 className="text-3xl font-bold glow">DdSQL - Admin Dashboard</h1>
           <div className="flex gap-3">
             <motion.button
@@ -271,7 +271,7 @@ export default function DdSQLPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto p-6 grid grid-cols-3 gap-6">
+      <div className="w-full px-4 md:px-6 p-6 grid grid-cols-3 gap-6">
         {/* Left Panel: Databases */}
         <div className="col-span-1 bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-xl p-6">
           <div className="flex justify-between items-center mb-4">

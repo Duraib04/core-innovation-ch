@@ -18,6 +18,10 @@ interface CustomerRecord {
   passwordHash: string
   salt: string
   createdAt: string
+  status?: 'active' | 'disabled'
+  deletedAt?: string
+  updatedAt?: string
+  updatedBy?: string
 }
 
 interface CustomerTokenPayload {
@@ -64,7 +68,10 @@ function ensureDdsqlCustomerTable() {
     address: 'string',
     city: 'string',
     country: 'string',
-    created_at: 'string'
+    created_at: 'string',
+    status: 'string',
+    deleted_at: 'string',
+    updated_at: 'string'
   })
 }
 
@@ -97,7 +104,11 @@ export async function registerCustomer(name: string, email: string, password: st
     email: trimmedEmail,
     passwordHash,
     salt,
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    status: 'active',
+    deletedAt: '',
+    updatedAt: '',
+    updatedBy: ''
   }
   users.push(record)
   saveUsers(users)
@@ -115,7 +126,10 @@ export async function registerCustomer(name: string, email: string, password: st
         address: '',
         city: '',
         country: '',
-        created_at: record.createdAt
+        created_at: record.createdAt,
+        status: record.status,
+        deleted_at: record.deletedAt || '',
+        updated_at: record.updatedAt || ''
       })
     }
   } catch {
@@ -137,6 +151,11 @@ export async function loginCustomer(email: string, password: string) {
   const user = users.find((u) => u.email === trimmedEmail)
   if (!user) {
     return { success: false, message: 'Invalid email or password.' }
+  }
+
+  // Block disabled or deleted accounts
+  if (user.status === 'disabled' || user.deletedAt) {
+    return { success: false, message: 'Account is disabled. Please contact support.' }
   }
 
   const passwordHash = hashPassword(password, user.salt)

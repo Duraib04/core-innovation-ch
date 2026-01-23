@@ -100,80 +100,80 @@ export default function CustomerPersonaPage() {
   const showCard = !loading && !error && persona
 
   return (
-    <div className="min-h-screen bg-[#e8e8e8] text-slate-900 px-4 py-10">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#e8e8e8] text-slate-900 px-3 md:px-4 py-6 md:py-10">
+      <div className="w-full px-4 md:px-6 space-y-6 md:space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-5xl font-black text-slate-900 mb-2">Buyer Persona</h1>
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-600 font-semibold">E-COMMERCE NATION</p>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-1 md:mb-2">Buyer Persona</h1>
+          <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-slate-600 font-semibold">E-COMMERCE NATION</p>
         </div>
 
-        {error && <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-sm text-center">{error}</div>}
+        {error && <div className="p-2 md:p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-700 text-xs md:text-sm text-center">{error}</div>}
 
         {loading && (
-          <div className="grid lg:grid-cols-3 gap-5 animate-pulse">
-            <div className="h-[600px] rounded-3xl bg-slate-300" />
-            <div className="lg:col-span-2 grid grid-cols-2 gap-4">
-              <div className="h-[290px] rounded-2xl bg-slate-300" />
-              <div className="h-[290px] rounded-2xl bg-slate-300" />
-              <div className="h-[290px] rounded-2xl bg-slate-300" />
-              <div className="h-[290px] rounded-2xl bg-slate-300" />
+          <div className="grid lg:grid-cols-3 gap-3 md:gap-5 animate-pulse">
+            <div className="h-96 md:h-[600px] rounded-2xl md:rounded-3xl bg-slate-300" />
+            <div className="lg:col-span-2 grid grid-cols-2 gap-2 md:gap-4">
+              <div className="h-48 md:h-[290px] rounded-xl md:rounded-2xl bg-slate-300" />
+              <div className="h-48 md:h-[290px] rounded-xl md:rounded-2xl bg-slate-300" />
+              <div className="h-48 md:h-[290px] rounded-xl md:rounded-2xl bg-slate-300" />
+              <div className="h-48 md:h-[290px] rounded-xl md:rounded-2xl bg-slate-300" />
             </div>
           </div>
         )}
 
         {showCard && (
-          <div className="grid lg:grid-cols-3 gap-6">
+          <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
             {/* Left Profile Card */}
-            <div className="bg-[#d4d0e8] rounded-3xl overflow-hidden shadow-xl">
+            <div className="bg-[#d4d0e8] rounded-2xl md:rounded-3xl overflow-hidden shadow-lg md:shadow-xl">
               {/* Photo placeholder */}
-              <div className="h-64 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
-                <div className="w-32 h-32 rounded-full bg-slate-400 flex items-center justify-center text-6xl font-bold text-white shadow-lg">
+              <div className="h-48 md:h-64 bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                <div className="w-24 md:w-32 h-24 md:h-32 rounded-full bg-slate-400 flex items-center justify-center text-4xl md:text-6xl font-bold text-white shadow-lg">
                   {(displayName || 'C')[0]}
                 </div>
               </div>
 
               {/* Info Section */}
-              <div className="p-6 space-y-4">
-                <div className="flex justify-between items-start border-b border-slate-400/30 pb-3">
+              <div className="p-3 md:p-6 space-y-3 md:space-y-4">
+                <div className="flex justify-between items-start border-b border-slate-400/30 pb-2 md:pb-3">
                   <div>
-                    <p className="text-xs text-slate-600 mb-1">Name</p>
-                    <p className="text-2xl font-bold text-slate-900">{displayName}</p>
+                    <p className="text-xs text-slate-600 mb-0.5">Name</p>
+                    <p className="text-lg md:text-2xl font-bold text-slate-900">{displayName}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-slate-600 mb-1">Age</p>
-                    <p className="text-2xl font-bold text-slate-900">—</p>
+                    <p className="text-xs text-slate-600 mb-0.5">Age</p>
+                    <p className="text-lg md:text-2xl font-bold text-slate-900">—</p>
                   </div>
                 </div>
 
-                <div className="space-y-3 text-sm">
+                <div className="space-y-2 md:space-y-3 text-xs md:text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="text-slate-700">📍</span>
-                    <span className="text-slate-800">{displayEmail || 'Location unknown'}</span>
+                    <span>📍</span>
+                    <span className="text-slate-800 truncate">{displayEmail || 'Location unknown'}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-slate-700">💼</span>
+                    <span>💼</span>
                     <span className="text-slate-800">{persona.persona}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-slate-700">🏢</span>
+                    <span>🏢</span>
                     <span className="text-slate-800">{persona.top_category || 'Various'} Enthusiast</span>
                   </div>
                 </div>
 
-                <div className="pt-4 space-y-2 text-sm leading-relaxed">
+                <div className="pt-3 md:pt-4 space-y-1 md:space-y-2 text-xs md:text-sm leading-relaxed">
                   {tags.length > 0 && tags.map((tag) => (
                     <p key={tag} className="text-slate-800">{tag}</p>
                   ))}
-                  <p className="text-slate-800">Orders placed: {persona.order_count}</p>
-                  <p className="text-slate-800">Total spend: ₹{persona.total_spend?.toFixed(0)}</p>
-                  <p className="text-slate-800">Price sensitivity: {persona.price_sensitivity}</p>
+                  <p className="text-slate-800">Orders: {persona.order_count}</p>
+                  <p className="text-slate-800">Spend: ₹{persona.total_spend?.toFixed(0)}</p>
+                  <p className="text-slate-800">Sensitivity: {persona.price_sensitivity}</p>
                 </div>
               </div>
             </div>
 
             {/* Right: 4 Sections in 2x2 Grid */}
-            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
+            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-2 md:gap-4">
               <InfoSection title="Needs" items={derived.needs} />
               <InfoSection title="Shopping habits" items={derived.habits} />
               <InfoSection title="Characteristics" items={derived.characteristics} />
@@ -183,18 +183,18 @@ export default function CustomerPersonaPage() {
         )}
 
         {!loading && !error && !persona && (
-          <div className="rounded-2xl border border-slate-300 bg-white p-8 text-slate-700 shadow-sm text-center">
-            <p className="font-semibold mb-2 text-lg">No persona yet</p>
-            <p className="text-sm text-slate-600">We will build your profile once you start shopping. Place an order to see your persona here.</p>
+          <div className="rounded-xl md:rounded-2xl border border-slate-300 bg-white p-4 md:p-8 text-slate-700 shadow-sm text-center">
+            <p className="font-semibold mb-1 md:mb-2 text-base md:text-lg">No persona yet</p>
+            <p className="text-xs md:text-sm text-slate-600">We will build your profile once you start shopping. Place an order to see your persona here.</p>
           </div>
         )}
 
         {/* Action Buttons */}
         {showCard && (
-          <div className="flex justify-center gap-3 text-sm">
-            <Link href="/customer/profile" className="px-5 py-2.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 font-semibold transition shadow-md">Profile</Link>
-            <Link href="/customer/orders" className="px-5 py-2.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 font-semibold transition shadow-md">Orders</Link>
-            <Link href="/customer/reviews" className="px-5 py-2.5 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-semibold transition shadow-md">Reviews</Link>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3 text-xs md:text-sm">
+            <Link href="/customer/profile" className="px-3 md:px-5 py-2 md:py-2.5 rounded-lg bg-slate-900 text-white hover:bg-slate-800 font-semibold transition shadow-md whitespace-nowrap">Profile</Link>
+            <Link href="/customer/orders" className="px-3 md:px-5 py-2 md:py-2.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 font-semibold transition shadow-md whitespace-nowrap">Orders</Link>
+            <Link href="/customer/reviews" className="px-3 md:px-5 py-2 md:py-2.5 rounded-lg bg-rose-600 text-white hover:bg-rose-700 font-semibold transition shadow-md whitespace-nowrap">Reviews</Link>
           </div>
         )}
       </div>
@@ -204,9 +204,9 @@ export default function CustomerPersonaPage() {
 
 function InfoSection({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="bg-[#d4d0e8] rounded-2xl p-6 shadow-lg h-full">
-      <h3 className="text-xl font-bold text-slate-900 mb-4">{title}</h3>
-      <ul className="space-y-2.5 text-sm text-slate-800">
+    <div className="bg-[#d4d0e8] rounded-xl md:rounded-2xl p-3 md:p-6 shadow-lg h-full">
+      <h3 className="text-base md:text-xl font-bold text-slate-900 mb-2 md:mb-4">{title}</h3>
+      <ul className="space-y-1.5 md:space-y-2.5 text-xs md:text-sm text-slate-800">
         {items.length ? items.map((item, idx) => (
           <li key={idx} className="leading-relaxed">• {item}</li>
         )) : (

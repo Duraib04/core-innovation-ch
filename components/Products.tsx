@@ -323,7 +323,7 @@ export default function Products() {
       originalPrice: '₹8,000',
       rating: 4.8,
       reviews: 213,
-      image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1200&q=80',
+      image: '/products/smart-home-gas-monitoring.jpg',
       badge: 'Safety',
       color: 'from-orange-500 to-red-500',
     },
@@ -409,7 +409,7 @@ export default function Products() {
   }
 
   return (
-    <section className="min-h-screen py-20 px-6 relative overflow-hidden">
+    <section className="min-h-screen py-10 md:py-20 px-3 md:px-6 relative overflow-hidden">
       {/* Structured Data for SEO */}
       <script
         type="application/ld+json"
@@ -436,18 +436,18 @@ export default function Products() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="w-full px-4 md:px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 glow">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-6 glow">
             Premium <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Products</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-sm md:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto px-4 md:px-0">
             Professional-grade tools and resources designed to accelerate your development workflow
           </p>
         </motion.div>
@@ -459,27 +459,27 @@ export default function Products() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           whileHover={{ scale: 1.02, y: -5 }}
-          className="block max-w-4xl mx-auto mb-12 bg-gradient-to-r from-green-600 via-teal-600 to-cyan-600 rounded-2xl p-8 border-2 border-green-400/50 shadow-2xl shadow-green-500/30 hover:shadow-green-500/50 transition-all cursor-pointer"
+          className="block max-w-4xl mx-auto mb-8 md:mb-12 bg-gradient-to-r from-green-600 via-teal-600 to-cyan-600 rounded-lg md:rounded-2xl p-4 md:p-8 border-2 border-green-400/50 shadow-2xl shadow-green-500/30 hover:shadow-green-500/50 transition-all cursor-pointer"
         >
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
             <div className="text-center md:text-left">
-              <h3 className="text-3xl font-bold mb-2 flex items-center gap-3 justify-center md:justify-start">
+              <h3 className="text-lg md:text-3xl font-bold mb-1 md:mb-2 flex items-center gap-2 md:gap-3 justify-center md:justify-start text-sm md:text-base">
                 <span>🎯</span> Need Something Custom?
               </h3>
-              <p className="text-lg text-white/90">
+              <p className="text-xs md:text-lg text-white/90">
                 Can't find what you need? Let's build your dream project together! Our AI assistant will help design your perfect solution.
               </p>
             </div>
             <motion.div
               whileHover={{ scale: 1.1 }}
-              className="px-8 py-4 bg-white text-green-600 rounded-full font-bold text-lg whitespace-nowrap shadow-lg"
+              className="px-4 md:px-8 py-2 md:py-4 bg-white text-green-600 rounded-full font-bold text-sm md:text-lg whitespace-nowrap shadow-lg"
             >
               Start Chat →
             </motion.div>
           </div>
         </motion.a>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {products.map((product, index) => (
             <motion.div
               key={index}
@@ -500,10 +500,10 @@ export default function Products() {
                 <motion.div
                   whileHover={{ y: -15, rotateY: 5, rotateX: 5 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-gradient-to-br from-gray-900 to-black rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/50 transition-all h-full transform-style-3d cursor-pointer"
+                  className="bg-gradient-to-br from-gray-900 to-black rounded-xl md:rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/50 transition-all h-full transform-style-3d cursor-pointer"
                 >
                   {/* Image */}
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="relative h-40 md:h-56 overflow-hidden">
                     <motion.div
                       animate={{
                         scale: hoveredIndex === index ? 1.1 : 1,
@@ -522,9 +522,9 @@ export default function Products() {
                     <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-40`} />
                     
                     {/* Badge */}
-                    <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
-                      <FiZap className="text-yellow-400" />
-                      {product.badge}
+                    <div className="absolute top-2 md:top-4 left-2 md:left-4 bg-black/70 backdrop-blur-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full text-xs md:text-sm font-semibold flex items-center gap-1">
+                      <FiZap className="text-yellow-400 text-xs md:text-base" />
+                      <span className="hidden sm:inline">{product.badge}</span>
                     </div>
 
                     {/* Wishlist button */}
@@ -532,20 +532,20 @@ export default function Products() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={(e) => e.preventDefault()}
-                      className="absolute top-4 right-4 w-10 h-10 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary/70 transition-colors z-10"
+                      className="absolute top-2 md:top-4 right-2 md:right-4 w-8 md:w-10 h-8 md:h-10 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-primary/70 transition-colors z-10 text-sm md:text-base"
                     >
                       <FiHeart />
                     </motion.button>
 
                     {/* Discount tag */}
-                    <div className="absolute bottom-4 right-4 bg-accent/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-bold">
+                    <div className="absolute bottom-2 md:bottom-4 right-2 md:right-4 bg-accent/90 backdrop-blur-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full text-xs md:text-sm font-bold">
                       -50% OFF
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-2xl font-bold mb-2 group-hover:text-primary transition-colors">
+                  <div className="p-3 md:p-6">
+                    <h3 className="text-base md:text-2xl font-bold mb-1 md:mb-2 group-hover:text-primary transition-colors line-clamp-2">
                       {product.name}
                     </h3>
 
@@ -624,52 +624,52 @@ export default function Products() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4"
             onClick={() => setShowModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-lg md:rounded-2xl p-4 md:p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold glow">Order Details</h3>
+              <div className="flex justify-between items-center mb-4 md:mb-6">
+                <h3 className="text-lg md:text-2xl font-bold glow">Order Details</h3>
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 90 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setShowModal(false)}
-                  className="text-gray-400 hover:text-white"
+                  className="text-gray-400 hover:text-white text-lg md:text-2xl"
                 >
-                  <FiX className="text-2xl" />
+                  <FiX />
                 </motion.button>
               </div>
 
               {/* Product Info */}
-              <div className="mb-6 p-4 bg-primary/10 border border-primary/20 rounded-lg">
-                <p className="text-lg font-semibold text-primary">{selectedProduct}</p>
+              <div className="mb-4 md:mb-6 p-3 md:p-4 bg-primary/10 border border-primary/20 rounded-lg">
+                <p className="text-base md:text-lg font-semibold text-primary truncate">{selectedProduct}</p>
               </div>
 
               {/* Order Form */}
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Full Name *</label>
+                    <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Full Name *</label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                      placeholder="Enter your full name"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                      placeholder="Full name"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Phone Number *</label>
+                    <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Phone Number *</label>
                     <input
                       type="tel"
                       name="phone"
@@ -677,67 +677,67 @@ export default function Products() {
                       onChange={handleChange}
                       required
                       pattern="[0-9]{10}"
-                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                      placeholder="10-digit mobile number"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                      placeholder="10-digit"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email Address *</label>
+                  <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Email Address *</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
                     placeholder="your@email.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Delivery Address *</label>
+                  <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Delivery Address *</label>
                   <textarea
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
                     required
-                    rows={3}
-                    className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none"
-                    placeholder="House/Flat No, Street, Landmark"
+                    rows={2}
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all resize-none text-sm"
+                    placeholder="House/Flat, Street, Landmark"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                   <div>
-                    <label className="block text-sm font-medium mb-2">City *</label>
+                    <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">City *</label>
                     <input
                       type="text"
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
                       placeholder="City"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">State *</label>
+                    <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">State *</label>
                     <input
                       type="text"
                       name="state"
                       value={formData.state}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
                       placeholder="State"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2">Pincode *</label>
+                    <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Pincode *</label>
                     <input
                       type="text"
                       name="pincode"
@@ -745,14 +745,14 @@ export default function Products() {
                       onChange={handleChange}
                       required
                       pattern="[0-9]{6}"
-                      className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                      placeholder="6-digit PIN"
+                      className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                      placeholder="6-digit"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Quantity</label>
+                  <label className="block text-xs md:text-sm font-medium mb-1.5 md:mb-2">Quantity</label>
                   <input
                     type="number"
                     name="quantity"
@@ -760,7 +760,7 @@ export default function Products() {
                     onChange={handleChange}
                     min="1"
                     required
-                    className="w-full px-4 py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-gray-900 border border-primary/20 rounded-lg focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
                   />
                 </div>
 
@@ -770,14 +770,14 @@ export default function Products() {
                   disabled={isSubmitting}
                   whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
                   whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                  className={`w-full py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/50 transition-all text-lg glow-strong ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  className={`w-full py-2.5 md:py-4 bg-gradient-to-r from-primary via-secondary to-accent rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/50 transition-all text-sm md:text-lg glow-strong ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
-                  <FiShoppingCart className={isSubmitting ? 'animate-pulse' : ''} />
-                  {isSubmitting ? 'Processing Order...' : 'Place Order'}
+                  <FiShoppingCart className={isSubmitting ? 'animate-pulse' : 'text-base md:text-lg'} />
+                  {isSubmitting ? 'Processing...' : 'Place Order'}
                 </motion.button>
               </form>
 
-              <p className="text-sm text-gray-400 text-center mt-4">
+              <p className="text-xs md:text-sm text-gray-400 text-center mt-3 md:mt-4">
                 We&apos;ll contact you shortly to confirm your order and arrange delivery.
               </p>
             </motion.div>
@@ -792,40 +792,40 @@ export default function Products() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 50 }}
-              className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-8 max-w-lg w-full"
+              className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-lg md:rounded-2xl p-4 md:p-8 max-w-lg w-full"
             >
               {/* Payment Options Header */}
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: "spring", bounce: 0.6 }}
-                className="text-center mb-6"
+                className="text-center mb-4 md:mb-6"
               >
-                <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 md:w-20 h-16 md:h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-2 md:mb-4">
                   <motion.div
                     animate={{ scale: [1, 1.2, 1] }}
                     transition={{ duration: 1, repeat: Infinity }}
-                    className="text-4xl"
+                    className="text-2xl md:text-4xl"
                   >
                     💳
                   </motion.div>
                 </div>
-                <h3 className="text-3xl font-bold text-green-400 mb-2">Choose Payment Method</h3>
-                <p className="text-gray-300">Order #{orderNumber}</p>
-                <p className="text-sm text-gray-400 mt-2">{selectedProduct} - {selectedProductPrice}</p>
+                <h3 className="text-lg md:text-3xl font-bold text-green-400 mb-1 md:mb-2">Choose Payment Method</h3>
+                <p className="text-xs md:text-sm text-gray-300">Order #{orderNumber}</p>
+                <p className="text-xs md:text-sm text-gray-400 mt-1 md:mt-2 truncate">{selectedProduct} - {selectedProductPrice}</p>
               </motion.div>
 
               {/* Payment Options */}
-              <div className="space-y-4 mb-6">
-                <p className="text-center text-lg font-semibold mb-4">Select payment option:</p>
+              <div className="space-y-3 md:space-y-4 mb-4 md:mb-6">
+                <p className="text-center text-sm md:text-lg font-semibold mb-2 md:mb-4">Select payment option:</p>
 
-                <div className="text-center text-sm text-amber-200 bg-amber-500/10 border border-amber-400/40 rounded-lg px-4 py-3">
+                <div className="text-center text-xs md:text-sm text-amber-200 bg-amber-500/10 border border-amber-400/40 rounded-lg px-3 md:px-4 py-2 md:py-3">
                   UPI has a ₹4,000 minimum. If your cart is below that, UPI will still charge ₹4,000. For smaller orders, pick the PDF/WhatsApp option and we&apos;ll confirm the exact amount.
                 </div>
                 
@@ -834,17 +834,17 @@ export default function Products() {
                   whileHover={{ scale: 1.02, x: 5 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleDirectUPIPayment}
-                  className="w-full flex items-center gap-4 p-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl transition-all group border-2 border-purple-400"
+                  className="w-full flex items-center gap-2 md:gap-4 p-3 md:p-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-lg md:rounded-xl transition-all group border-2 border-purple-400"
                 >
-                  <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center">
-                    <span className="text-3xl">⚡</span>
+                  <div className="w-10 md:w-14 h-10 md:h-14 bg-white rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl md:text-3xl">⚡</span>
                   </div>
-                  <div className="text-left flex-1">
-                    <p className="font-bold text-xl">Direct UPI Payment (₹4,000 min)</p>
-                    <p className="text-sm text-purple-100">Pay instantly via Google Pay/PhonePe/Paytm</p>
-                    <p className="text-xs text-purple-200 mt-1">✓ Instant | ✓ No fees | ✓ Auto-confirm | Min charge ₹4,000</p>
+                  <div className="text-left flex-1 min-w-0">
+                    <p className="font-bold text-xs md:text-xl truncate">Direct UPI (₹4K min)</p>
+                    <p className="text-xs md:text-sm text-purple-100 line-clamp-1">Google Pay/PhonePe/Paytm</p>
+                    <p className="text-xs text-purple-200 mt-0.5 md:mt-1 line-clamp-1">✓ Instant | ✓ No fees</p>
                   </div>
-                  <span className="text-3xl group-hover:translate-x-2 transition-transform">→</span>
+                  <span className="text-xl md:text-3xl group-hover:translate-x-2 transition-transform flex-shrink-0">→</span>
                 </motion.button>
 
                 {/* Option 2: Download PDF & Send */}

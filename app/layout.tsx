@@ -13,7 +13,28 @@ export const metadata: Metadata = {
     template: '%s | DD-SHOP - IoT Products & Custom Development'
   },
   description: 'Buy IoT products, ready-made projects, and custom development services. Smart home automation, Industry 4.0 solutions, ESP32/Arduino projects, web & mobile apps. Custom IoT hardware and software tailored to your needs.',
-  keywords: ['buy iot products online', 'iot products for sale', 'iot project selling', 'smart home products', 'iot hardware', 'custom iot solutions', 'iot development services', 'esp32 projects', 'arduino products', 'smart automation', 'industry 4.0', 'iot software development', 'custom electronics', 'ready-made iot projects', 'iot shop', 'buy smart devices', 'iot products india', 'custom project development', 'web development', 'mobile app development', 'DD shop', 'DD iot', 'DD products', 'DD-SHOP', 'Durai', 'Durai iot', 'Durai products', 'Durai shop', 'Durai iot products', 'Durai electronics', 'DD and durai iot', 'durai or dd', 'DD iot solutions', 'durai custom development'],
+  keywords: [
+    'safehome gas monitor with display', 
+    'esp32 wifi lift access control system', 
+    'multi gas detection lpg natural gas co sensor',
+    'automated plant watering soil moisture kit',
+    'rfid door lock access log system',
+    'industrial iot ecosystem multi vendor platform',
+    'esp32 smart night lamp voice control',
+    'gas leak automatic shutoff valve system',
+    'real time chat website source code',
+    'lift guard password portal access',
+    'ai driven ventilation gas detection',
+    'centralized industrial equipment monitoring',
+    'weather forecast smart irrigation system',
+    'door lock rfid dashboard remote control',
+    'custom esp32 arduino project development',
+    'buy ready to deploy iot solutions',
+    'turnkey smart home automation kits',
+    'plug and play industrial iot devices',
+    'DD products custom electronics india',
+    'core innovation iot development services'
+  ],
   authors: [{ name: 'Durai', url: 'https://core-innovation-ch.vercel.app' }],
   creator: 'Durai',
   publisher: 'Core Innovation',
@@ -74,7 +95,7 @@ export default function RootLayout({
         <meta name="google-site-verification" content="google27a92eae85922e3d" />
         <link rel="canonical" href="https://dd-products.vercel.app" />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
+      <body className={`${inter.className} mono-theme`} suppressHydrationWarning>
         <Analytics />
         <StructuredData />
         {children}

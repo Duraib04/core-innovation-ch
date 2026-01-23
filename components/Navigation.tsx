@@ -84,7 +84,7 @@ export default function Navigation() {
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="w-full px-4 md:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" aria-label="Home">
@@ -146,7 +146,7 @@ export default function Navigation() {
           </div>
 
           {/* Customer Auth + Let's Talk */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-end">
             {/* Customer auth buttons / profile */}
             {customerSession ? (
               <Link href="/customer/profile" aria-label="Customer Profile">
@@ -187,9 +187,9 @@ export default function Navigation() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowContactMenu(!showContactMenu)}
-              className="px-6 py-2 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 transition-colors"
+              className="px-4 md:px-6 py-2 bg-blue-600 text-white rounded-full font-semibold text-xs md:text-sm hover:bg-blue-700 transition-colors whitespace-nowrap"
             >
-              Let&apos;s Talk
+              Chat
             </motion.button>
 
             {/* Dropdown Menu */}

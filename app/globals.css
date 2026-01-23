@@ -1,5 +1,8 @@
+/* stylelint-disable-line */
 @tailwind base;
+/* stylelint-disable-line */
 @tailwind components;
+/* stylelint-disable-line */
 @tailwind utilities;
 
 :root {
@@ -22,6 +25,74 @@ body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-start-rgb));
   overflow-x: hidden;
+}
+
+.mono-theme,
+.mono-theme body,
+.mono-theme main,
+.mono-theme section,
+.mono-theme header,
+.mono-theme footer,
+.mono-theme nav,
+.mono-theme article,
+.mono-theme aside {
+  background: #000 !important;
+  color: #f5f5f5 !important;
+}
+
+.mono-theme *:not(img):not(svg *) {
+  color: #f5f5f5;
+  border-color: #242424;
+}
+
+.mono-theme a {
+  color: #ffffff;
+}
+
+.mono-theme a:hover {
+  color: #e5e5e5;
+}
+
+.mono-theme button,
+.mono-theme .btn,
+.mono-theme input,
+.mono-theme select,
+.mono-theme textarea {
+  background: #0f0f0f !important;
+  color: #ffffff !important;
+  border: 1px solid #2a2a2a !important;
+}
+
+.mono-theme .card,
+.mono-theme .panel,
+.mono-theme .glass,
+.mono-theme .tile,
+.mono-theme .pill,
+.mono-theme .badge {
+  background: #0a0a0a !important;
+  border: 1px solid #1c1c1c !important;
+  color: #f5f5f5 !important;
+}
+
+.mono-theme .input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #0f0f0f;
+  border: 1px solid #2a2a2a;
+  color: #fff;
+}
+
+.mono-theme hr,
+.mono-theme .divider,
+.mono-theme .line {
+  border-color: #222;
+  background: #222;
+}
+
+.mono-theme ::selection {
+  background: #222;
+  color: #fff;
 }
 
 @layer utilities {

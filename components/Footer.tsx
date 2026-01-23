@@ -15,7 +15,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-gradient-to-b from-black to-gray-900 py-16 px-6 border-t border-primary/20">
-      <div className="max-w-7xl mx-auto">
+      <div className="w-full px-4 md:px-6">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div className="lg:col-span-2">

@@ -45,7 +45,7 @@ export default function ProductPage({ product }: ProductPageProps) {
       <Navigation />
       
       <div className="pt-24 pb-20 px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full px-4 md:px-6">
           {/* Breadcrumb */}
           <div className="mb-6 text-sm text-gray-400">
             <Link href="/" className="hover:text-primary">Home</Link>

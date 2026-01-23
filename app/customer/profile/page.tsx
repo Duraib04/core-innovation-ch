@@ -57,75 +57,75 @@ export default function CustomerProfilePage() {
   const persona = data?.persona
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold glow">Your Profile</h1>
-          <Link href="/products" className="text-primary hover:underline">Back to products</Link>
+    <div className="min-h-screen bg-black text-white p-3 md:p-6">
+      <div className="w-full px-4 md:px-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 md:gap-4 mb-4 md:mb-6">
+          <h1 className="text-2xl md:text-3xl font-bold glow">Your Profile</h1>
+          <Link href="/products" className="text-primary hover:underline text-xs md:text-sm">Back to products</Link>
         </div>
 
-        {loading && <p className="text-gray-400">Loading...</p>}
+        {loading && <p className="text-gray-400 text-sm">Loading...</p>}
         {error && (
-          <div className="p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 text-sm">{error}</div>
+          <div className="p-2 md:p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 text-xs md:text-sm">{error}</div>
         )}
 
         {!loading && !error && (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             {/* Basic Info */}
-            <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-xl p-6">
-              <h2 className="text-xl font-bold mb-2">Account</h2>
-              <p className="text-gray-300">{data?.user?.name || 'Customer'}</p>
-              <p className="text-gray-400 text-sm">{data?.user?.email}</p>
-              <div className="mt-3 flex gap-2 text-sm">
-                <Link href="/customer/orders" className="px-3 py-1 rounded-lg bg-primary/20 border border-primary/40 text-primary">View Orders</Link>
-                <Link href="/customer/reviews" className="px-3 py-1 rounded-lg bg-secondary/20 border border-secondary/40 text-secondary">View Reviews</Link>
+            <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-lg md:rounded-xl p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-bold mb-2">Account</h2>
+              <p className="text-gray-300 text-sm md:text-base">{data?.user?.name || 'Customer'}</p>
+              <p className="text-gray-400 text-xs md:text-sm truncate">{data?.user?.email}</p>
+              <div className="mt-3 flex flex-wrap gap-2 text-xs md:text-sm">
+                <Link href="/customer/orders" className="px-3 py-1.5 md:py-2 rounded-lg bg-primary/20 border border-primary/40 text-primary whitespace-nowrap">View Orders</Link>
+                <Link href="/customer/reviews" className="px-3 py-1.5 md:py-2 rounded-lg bg-secondary/20 border border-secondary/40 text-secondary whitespace-nowrap">View Reviews</Link>
               </div>
             </div>
 
             {/* Persona */}
-            <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-xl p-6">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xl font-bold">Persona</h2>
+            <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-lg md:rounded-xl p-4 md:p-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 md:gap-3 mb-2 md:mb-3">
+                <h2 className="text-lg md:text-xl font-bold">Persona</h2>
                 {persona?.last_updated && (
                   <p className="text-xs text-gray-500">Updated {new Date(persona.last_updated).toLocaleString()}</p>
                 )}
               </div>
-              <div className="text-2xl font-extrabold mb-3 text-primary">{persona?.persona || 'Prospect'}</div>
-              {persona?.summary && <p className="text-gray-300 mb-4">{persona.summary}</p>}
+              <div className="text-xl md:text-2xl font-extrabold mb-2 md:mb-3 text-primary">{persona?.persona || 'Prospect'}</div>
+              {persona?.summary && <p className="text-gray-300 mb-3 md:mb-4 text-xs md:text-sm">{persona.summary}</p>}
 
               <div className="flex flex-wrap gap-2">
                 {(persona?.tags || ['No Orders']).map((tag) => (
-                  <span key={tag} className="px-3 py-1 text-xs rounded-full bg-primary/20 border border-primary/40">{tag}</span>
+                  <span key={tag} className="px-2 md:px-3 py-1 text-xs rounded-full bg-primary/20 border border-primary/40">{tag}</span>
                 ))}
               </div>
             </div>
 
             {/* Metrics */}
-            <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-xl p-6">
-              <h2 className="text-xl font-bold mb-4">Shopping Snapshot</h2>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="bg-gradient-to-br from-gray-900 to-black border border-primary/20 rounded-lg md:rounded-xl p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-bold mb-3 md:mb-4">Shopping Snapshot</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 text-xs md:text-sm">
                 <div>
-                  <p className="text-gray-400">Top Category</p>
-                  <p className="text-gray-200 font-semibold">{persona?.top_category || 'N/A'}</p>
+                  <p className="text-gray-400 text-xs">Top Category</p>
+                  <p className="text-gray-200 font-semibold truncate">{persona?.top_category || 'N/A'}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Price Sensitivity</p>
-                  <p className="text-gray-200 font-semibold">{persona?.price_sensitivity || 'Unknown'}</p>
+                  <p className="text-gray-400 text-xs">Price Sensitivity</p>
+                  <p className="text-gray-200 font-semibold truncate">{persona?.price_sensitivity || 'Unknown'}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Orders</p>
+                  <p className="text-gray-400 text-xs">Orders</p>
                   <p className="text-gray-200 font-semibold">{persona?.order_count ?? 0}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Total Spend</p>
+                  <p className="text-gray-400 text-xs">Total Spend</p>
                   <p className="text-gray-200 font-semibold">₹ {persona?.total_spend?.toFixed(0) ?? 0}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Avg Order Value</p>
+                  <p className="text-gray-400 text-xs">Avg Order</p>
                   <p className="text-gray-200 font-semibold">₹ {persona?.avg_order_value?.toFixed(0) ?? 0}</p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Reviews • Rating</p>
+                  <p className="text-gray-400 text-xs">Reviews • Rating</p>
                   <p className="text-gray-200 font-semibold">{persona?.review_count ?? 0} • {persona?.avg_rating ?? 0}</p>
                 </div>
               </div>
