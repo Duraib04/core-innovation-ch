@@ -91,10 +91,6 @@ export default function Navigation() {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer flex items-center overflow-hidden rounded-xl"
-                onClick={(e) => {
-                  e.preventDefault()
-                  setShowLogoIntro(true)
-                }}
               >
                 {/* Mobile: brief logo */}
                 <Image
@@ -233,58 +229,7 @@ export default function Navigation() {
       </div>
     </motion.nav>
 
-    {/* Logo Intro Modal (triggered by logo click) */}
-    <AnimatePresence>
-      {showLogoIntro && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setShowLogoIntro(false)}
-        >
-          <motion.div
-            initial={{ scale: 0.6, opacity: 0, y: -20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 50 }}
-            transition={{ type: 'spring', stiffness: 260, damping: 22 }}
-            className="bg-gradient-to-br from-gray-900 to-black border border-primary/30 rounded-2xl p-6 max-w-3xl w-full shadow-lg shadow-primary/20"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold glow">Logo Intro</h3>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowLogoIntro(false)}
-                className="text-gray-400 hover:text-white"
-                aria-label="Close"
-              >
-                ✖
-              </motion.button>
-            </div>
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 220, damping: 26, delay: 0.05 }}
-              className="aspect-video w-full overflow-hidden rounded-xl border border-primary/30"
-            >
-              {/* Animated overlay shimmer */}
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />
-              <video
-                src="/images/intro%20video.mp4"
-                controls={false}
-                autoPlay
-                muted
-                playsInline
-                className="w-full h-full"
-                poster="/images/logo.jpeg"
-              />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    {/* Logo Intro Modal removed so logo is always visible and not interactive */}
     </>
   )
 }
