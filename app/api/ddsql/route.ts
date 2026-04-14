@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     switch (action) {
       case 'listDatabases': {
-        const databases = DdSQL.listDatabases()
+        const databases = await DdSQL.listDatabases()
         console.log('[DdSQL API] listDatabases result:', databases)
         // Convert string array to objects with name property
         return NextResponse.json({ databases: databases.map(db => ({ name: db })) })
@@ -26,13 +26,13 @@ export async function GET(request: NextRequest) {
 
       case 'listTables':
         if (!db) return NextResponse.json({ error: 'Database required' }, { status: 400 })
-        const tables = DdSQL.listTables(db)
+        const tables = await DdSQL.listTables(db)
         // Convert string array to objects with name property
         return NextResponse.json({ tables: tables.map(t => ({ name: t })) })
 
       case 'getTableData':
         if (!db || !table) return NextResponse.json({ error: 'Database and table required' }, { status: 400 })
-        const rows = DdSQL.getTableData(db, table)
+        const rows = await DdSQL.getTableData(db, table)
         return NextResponse.json({ data: rows })
 
       default:
@@ -59,39 +59,39 @@ export async function POST(request: NextRequest) {
     switch (action) {
       case 'createDatabase': {
         if (!db) return NextResponse.json({ error: 'Database name required' }, { status: 400 })
-        const created = DdSQL.createDatabase(db)
+        const created = await DdSQL.createDatabase(db)
         console.log('[DdSQL API] createDatabase result:', { db, created })
         return NextResponse.json({ success: created })
       }
 
       case 'deleteDatabase':
         if (!db) return NextResponse.json({ error: 'Database name required' }, { status: 400 })
-        const deleted = DdSQL.deleteDatabase(db)
+        const deleted = await DdSQL.deleteDatabase(db)
         return NextResponse.json({ success: deleted })
 
       case 'createTable':
         if (!db || !table || !schema) return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
-        const tableCreated = DdSQL.createTable(db, table, schema)
+        const tableCreated = await DdSQL.createTable(db, table, schema)
         return NextResponse.json({ success: tableCreated })
 
       case 'deleteTable':
         if (!db || !table) return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
-        const tableDeleted = DdSQL.deleteTable(db, table)
+        const tableDeleted = await DdSQL.deleteTable(db, table)
         return NextResponse.json({ success: tableDeleted })
 
       case 'insertRow':
         if (!db || !table || !data) return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
-        const inserted = DdSQL.insertRow(db, table, data)
+        const inserted = await DdSQL.insertRow(db, table, data)
         return NextResponse.json({ success: inserted })
 
       case 'deleteRow':
         if (!db || !table || !data?.id) return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
-        const rowDeleted = DdSQL.deleteRow(db, table, data.id)
+        const rowDeleted = await DdSQL.deleteRow(db, table, data.id)
         return NextResponse.json({ success: rowDeleted })
 
       case 'query':
         if (!db || !table) return NextResponse.json({ error: 'Missing parameters' }, { status: 400 })
-        const results = DdSQL.queryTable(db, table, filter)
+        const results = await DdSQL.queryTable(db, table, filter)
         return NextResponse.json({ data: results })
 
       default:

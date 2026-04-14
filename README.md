@@ -11,6 +11,7 @@ A stunning, ultra-modern portfolio and product showcase website featuring advanc
 - **Custom Cursor**: Enhanced user experience with animated cursor
 - **Gradient Animations**: Beautiful color transitions throughout
 - **Modern UI**: Built with Next.js 14 and Tailwind CSS
+- **Firebase Database**: Firestore-backed storage with Blob fallback when Firebase is unavailable
 
 ## 🛠️ Tech Stack
 
@@ -22,17 +23,28 @@ A stunning, ultra-modern portfolio and product showcase website featuring advanc
 
 ## 📦 Installation
 
-1. Install dependencies:
+Install dependencies:
+
 ```bash
 npm install
 ```
 
-2. Run the development server:
+Run the development server:
+
 ```bash
 npm run dev
 ```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🔧 Database Setup
+
+Set one of the following in your environment to enable Firestore as the primary database:
+
+- `FIREBASE_SERVICE_ACCOUNT_KEY` or `FIREBASE_SERVICE_ACCOUNT_JSON`
+- `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, and `FIREBASE_PRIVATE_KEY`
+
+If Firebase is not configured, the app falls back to the existing Blob-backed storage path.
 
 ## 🌐 Deployment
 

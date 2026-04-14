@@ -10,9 +10,11 @@ export async function GET(request: NextRequest) {
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const email = session.email?.toLowerCase()
 
-    const customers = DdSQL.getTableData(DB, 'customers') as any[]
-    const reviews = DdSQL.getTableData(DB, 'reviews') as any[]
-    const products = DdSQL.getTableData(DB, 'products') as any[]
+    const [customers, reviews, products] = await Promise.all([
+      DdSQL.getTableData(DB, 'customers'),
+      DdSQL.getTableData(DB, 'reviews'),
+      DdSQL.getTableData(DB, 'products'),
+    ]) as [any[], any[], any[]]
 
     const me = customers.find((c) => String(c.email || '').toLowerCase() === String(email))
     if (!me) return NextResponse.json({ reviews: [] })

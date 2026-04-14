@@ -7,10 +7,30 @@ import {
   getCustomerSession
 } from '@/lib/customerAuth'
 
+export async function GET() {
+  try {
+    const session = await getCustomerSession()
+    if (!session) return NextResponse.json({ authenticated: false }, { status: 200 })
+    return NextResponse.json({
+      authenticated: true,
+      user: { id: session.user, name: session.name, email: session.email }
+    })
+  } catch (error) {
+    return NextResponse.json({ error: 'Server error', details: error instanceof Error ? error.message : String(error) }, { status: 500 })
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body = await request.json().catch(() => null)
+    if (!body || typeof body !== 'object') {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+    }
+
     const { action } = body
+    if (typeof action !== 'string') {
+      return NextResponse.json({ error: 'action is required' }, { status: 400 })
+    }
 
     switch (action) {
       case 'register': {

@@ -11,8 +11,22 @@ export async function POST(request: NextRequest) {
 
     const dbName = 'ecommerce'
 
+    // Recreate the sample database so repeated init calls stay deterministic.
+    const deleted = await DdSQL.deleteDatabase(dbName)
+    if (!deleted) {
+      return NextResponse.json({
+        error: 'Database is not configured for write operations.',
+        details: 'Set DATABASE_URL in Vercel project settings and redeploy.'
+      }, { status: 500 })
+    }
+
     // Create database
-    DdSQL.createDatabase(dbName)
+    const dbCreated = await DdSQL.createDatabase(dbName)
+    if (!dbCreated) {
+      return NextResponse.json({
+        error: 'Failed to prepare database namespace.',
+      }, { status: 500 })
+    }
 
     // Create tables with schemas
     const tables = {
@@ -72,7 +86,12 @@ export async function POST(request: NextRequest) {
 
     // Create all tables
     for (const [tableName, schema] of Object.entries(tables)) {
-      DdSQL.createTable(dbName, tableName, schema)
+      const created = await DdSQL.createTable(dbName, tableName, schema)
+      if (!created) {
+        return NextResponse.json({
+          error: `Failed to create table: ${tableName}`,
+        }, { status: 500 })
+      }
     }
 
     // Insert sample data
@@ -112,7 +131,12 @@ export async function POST(request: NextRequest) {
       }
     ]
 
-    customers.forEach((c, i) => DdSQL.insertRow(dbName, 'customers', { ...c, id: `cust_${String(i + 1).padStart(3, '0')}` }))
+    {
+      const results = await Promise.all(customers.map((c, i) => DdSQL.insertRow(dbName, 'customers', { ...c, id: `cust_${String(i + 1).padStart(3, '0')}` })))
+      if (results.some((ok) => !ok)) {
+        return NextResponse.json({ error: 'Failed to insert sample customers' }, { status: 500 })
+      }
+    }
 
     // Sample products
     const products = [
@@ -178,7 +202,12 @@ export async function POST(request: NextRequest) {
       }
     ]
 
-    products.forEach((p, i) => DdSQL.insertRow(dbName, 'products', { ...p, id: `prod_${String(i + 1).padStart(3, '0')}` }))
+    {
+      const results = await Promise.all(products.map((p, i) => DdSQL.insertRow(dbName, 'products', { ...p, id: `prod_${String(i + 1).padStart(3, '0')}` })))
+      if (results.some((ok) => !ok)) {
+        return NextResponse.json({ error: 'Failed to insert sample products' }, { status: 500 })
+      }
+    }
 
     // Sample orders
     const orders = [
@@ -208,7 +237,12 @@ export async function POST(request: NextRequest) {
       }
     ]
 
-    orders.forEach((o, i) => DdSQL.insertRow(dbName, 'orders', { ...o, id: `order_${String(i + 1).padStart(3, '0')}` }))
+    {
+      const results = await Promise.all(orders.map((o, i) => DdSQL.insertRow(dbName, 'orders', { ...o, id: `order_${String(i + 1).padStart(3, '0')}` })))
+      if (results.some((ok) => !ok)) {
+        return NextResponse.json({ error: 'Failed to insert sample orders' }, { status: 500 })
+      }
+    }
 
     // Sample order items
     const orderItems = [
@@ -254,7 +288,12 @@ export async function POST(request: NextRequest) {
       }
     ]
 
-    orderItems.forEach((oi, i) => DdSQL.insertRow(dbName, 'order_items', { ...oi, id: `oi_${String(i + 1).padStart(3, '0')}` }))
+    {
+      const results = await Promise.all(orderItems.map((oi, i) => DdSQL.insertRow(dbName, 'order_items', { ...oi, id: `oi_${String(i + 1).padStart(3, '0')}` })))
+      if (results.some((ok) => !ok)) {
+        return NextResponse.json({ error: 'Failed to insert sample order items' }, { status: 500 })
+      }
+    }
 
     // Sample reviews
     const reviews = [
@@ -296,7 +335,12 @@ export async function POST(request: NextRequest) {
       }
     ]
 
-    reviews.forEach((r, i) => DdSQL.insertRow(dbName, 'reviews', { ...r, id: `rev_${String(i + 1).padStart(3, '0')}` }))
+    {
+      const results = await Promise.all(reviews.map((r, i) => DdSQL.insertRow(dbName, 'reviews', { ...r, id: `rev_${String(i + 1).padStart(3, '0')}` })))
+      if (results.some((ok) => !ok)) {
+        return NextResponse.json({ error: 'Failed to insert sample reviews' }, { status: 500 })
+      }
+    }
 
     // Sample stock history
     const stockHistory = [
@@ -330,7 +374,12 @@ export async function POST(request: NextRequest) {
       }
     ]
 
-    stockHistory.forEach((sh, i) => DdSQL.insertRow(dbName, 'product_stock_history', { ...sh, id: `sh_${String(i + 1).padStart(3, '0')}` }))
+    {
+      const results = await Promise.all(stockHistory.map((sh, i) => DdSQL.insertRow(dbName, 'product_stock_history', { ...sh, id: `sh_${String(i + 1).padStart(3, '0')}` })))
+      if (results.some((ok) => !ok)) {
+        return NextResponse.json({ error: 'Failed to insert sample stock history' }, { status: 500 })
+      }
+    }
 
     console.log('[DdSQL Init] Sample ecommerce database created with all tables and data')
     return NextResponse.json({ 

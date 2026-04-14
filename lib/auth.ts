@@ -1,11 +1,12 @@
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
+import { readEnv } from './env'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dd-shop-jwt-secret-key-change-in-production'
+const JWT_SECRET = readEnv('JWT_SECRET') || 'dd-shop-jwt-secret-key-change-in-production'
 
 // Hardcoded root credentials (change in production to use environment variables)
-const ROOT_USER = process.env.DDSQL_USER || 'root'
-const ROOT_PASS = process.env.DDSQL_PASS || '12345'
+const ROOT_USER = readEnv('DDSQL_USER') || 'root'
+const ROOT_PASS = readEnv('DDSQL_PASS') || '12345'
 
 export interface TokenPayload {
   user: string

@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
     const email = session.email?.toLowerCase()
     const name = session.name
 
-    // Ensure cache table exists
-    DdSQL.createTable(DB, CACHE_TABLE, {
+    // Ensure cache table exists (no-op in Postgres)
+    await DdSQL.createTable(DB, CACHE_TABLE, {
       email: 'string',
       persona: 'string',
       tags: 'string',
@@ -36,16 +36,18 @@ export async function GET(request: NextRequest) {
       last_updated: 'string'
     })
 
-    const customers = DdSQL.getTableData(DB, 'customers') as any[]
-    const products = DdSQL.getTableData(DB, 'products') as any[]
-    const orders = DdSQL.getTableData(DB, 'orders') as any[]
-    const items = DdSQL.getTableData(DB, 'order_items') as any[]
-    const reviews = DdSQL.getTableData(DB, 'reviews') as any[]
+    const [customers, products, orders, items, reviews] = await Promise.all([
+      DdSQL.getTableData(DB, 'customers'),
+      DdSQL.getTableData(DB, 'products'),
+      DdSQL.getTableData(DB, 'orders'),
+      DdSQL.getTableData(DB, 'order_items'),
+      DdSQL.getTableData(DB, 'reviews'),
+    ]) as [any[], any[], any[], any[], any[]]
 
     const me = customers.find((c) => String(c.email || '').toLowerCase() === String(email))
 
     // Check cache first
-    const cacheRows = DdSQL.queryTable(DB, CACHE_TABLE, { email }) as any[]
+    const cacheRows = await DdSQL.queryTable(DB, CACHE_TABLE, { email }) as any[]
     const cached = cacheRows[cacheRows.length - 1]
     if (cached) {
       const ageHrs = (Date.now() - new Date(cached.last_updated).getTime()) / (1000 * 60 * 60)
@@ -90,7 +92,7 @@ export async function GET(request: NextRequest) {
       }
 
       // cache prospect too
-      DdSQL.insertRow(DB, CACHE_TABLE, {
+      await DdSQL.insertRow(DB, CACHE_TABLE, {
         email,
         persona: personaData.persona,
         tags: personaData.tags.join(','),
@@ -204,7 +206,7 @@ export async function GET(request: NextRequest) {
     }
 
     // cache
-    DdSQL.insertRow(DB, CACHE_TABLE, {
+    await DdSQL.insertRow(DB, CACHE_TABLE, {
       email,
       persona: personaData.persona,
       tags: tags.join(','),

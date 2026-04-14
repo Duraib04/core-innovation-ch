@@ -1,28 +1,13 @@
 import crypto from 'crypto'
-import fs from 'fs'
-import path from 'path'
 import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
+import { listCustomerAccounts, saveCustomerAccounts, type CustomerAccountRecord } from './customerAccountsStore'
 import { DdSQL } from './DdSQL'
+import { readEnv } from './env'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dd-shop-jwt-secret-key-change-in-production'
-const CUSTOMER_DATA_DIR = path.join(process.cwd(), 'data', 'customers')
-const CUSTOMER_FILE = path.join(CUSTOMER_DATA_DIR, 'accounts.json')
+const JWT_SECRET = readEnv('JWT_SECRET') || 'dd-shop-jwt-secret-key-change-in-production'
 const DDSQL_DB = 'ecommerce'
 const DDSQL_CUSTOMERS = 'customers'
-
-interface CustomerRecord {
-  id: string
-  name: string
-  email: string
-  passwordHash: string
-  salt: string
-  createdAt: string
-  status?: 'active' | 'disabled'
-  deletedAt?: string
-  updatedAt?: string
-  updatedBy?: string
-}
 
 interface CustomerTokenPayload {
   user: string
@@ -32,93 +17,56 @@ interface CustomerTokenPayload {
   iat: number
 }
 
-function ensureStore() {
-  if (!fs.existsSync(CUSTOMER_DATA_DIR)) {
-    fs.mkdirSync(CUSTOMER_DATA_DIR, { recursive: true })
-  }
-  if (!fs.existsSync(CUSTOMER_FILE)) {
-    fs.writeFileSync(CUSTOMER_FILE, JSON.stringify({ users: [] }, null, 2), 'utf8')
-  }
-}
-
-function loadUsers(): CustomerRecord[] {
-  try {
-    ensureStore()
-    const raw = fs.readFileSync(CUSTOMER_FILE, 'utf8')
-    const parsed = JSON.parse(raw)
-    return parsed.users || []
-  } catch {
-    return []
-  }
-}
-
-function saveUsers(users: CustomerRecord[]) {
-  ensureStore()
-  fs.writeFileSync(CUSTOMER_FILE, JSON.stringify({ users }, null, 2), 'utf8')
-}
-
-function ensureDdsqlCustomerTable() {
-  // Best-effort table creation for syncing web customers into DdSQL
-  DdSQL.createDatabase(DDSQL_DB)
-  DdSQL.createTable(DDSQL_DB, DDSQL_CUSTOMERS, {
-    id: 'string',
-    name: 'string',
-    email: 'string',
-    phone: 'string',
-    address: 'string',
-    city: 'string',
-    country: 'string',
-    created_at: 'string',
-    status: 'string',
-    deleted_at: 'string',
-    updated_at: 'string'
-  })
-}
-
 function hashPassword(password: string, salt: string) {
   return crypto.pbkdf2Sync(password, salt, 100_000, 64, 'sha512').toString('hex')
 }
 
-export async function registerCustomer(name: string, email: string, password: string) {
-  const trimmedEmail = email.trim().toLowerCase()
-  const trimmedName = name.trim()
-  if (!trimmedName || !trimmedEmail || !password) {
+export async function registerCustomer(name: unknown, email: unknown, password: unknown) {
+  const trimmedName = typeof name === 'string' ? name.trim() : ''
+  const trimmedEmail = typeof email === 'string' ? email.trim().toLowerCase() : ''
+  const rawPassword = typeof password === 'string' ? password : ''
+
+  if (!trimmedName || !trimmedEmail || !rawPassword) {
     return { success: false, message: 'Name, email, and password are required.' }
   }
-  if (password.length < 6) {
+  if (rawPassword.length < 6) {
     return { success: false, message: 'Password must be at least 6 characters.' }
   }
 
-  const users = loadUsers()
-  const existing = users.find((u) => u.email === trimmedEmail)
+  const salt = crypto.randomBytes(16).toString('hex')
+  const passwordHash = hashPassword(rawPassword, salt)
+  const id = `cust_${crypto.randomUUID()}`
+  const now = new Date().toISOString()
+
+  const accounts = await listCustomerAccounts()
+  const existing = accounts.find((account) => account.email === trimmedEmail)
   if (existing) {
     return { success: false, message: 'Email already registered.' }
   }
 
-  const salt = crypto.randomBytes(16).toString('hex')
-  const passwordHash = hashPassword(password, salt)
-  const id = `cust_${crypto.randomUUID()}`
-  const record: CustomerRecord = {
+  accounts.push({
     id,
     name: trimmedName,
     email: trimmedEmail,
-    passwordHash,
+    password_hash: passwordHash,
     salt,
-    createdAt: new Date().toISOString(),
+    created_at: now,
     status: 'active',
-    deletedAt: '',
-    updatedAt: '',
-    updatedBy: ''
-  }
-  users.push(record)
-  saveUsers(users)
+    deleted_at: '',
+    updated_at: '',
+    updated_by: '',
+    phone: '',
+    address: '',
+    city: '',
+    country: ''
+  })
+  await saveCustomerAccounts(accounts)
 
-   // Sync into DdSQL ecommerce.customers table (if not already there)
+  // Sync into DdSQL ecommerce.customers table (best-effort)
   try {
-    ensureDdsqlCustomerTable()
-    const existing = (DdSQL.queryTable(DDSQL_DB, DDSQL_CUSTOMERS, { email: trimmedEmail }) as any[])[0]
-    if (!existing) {
-      DdSQL.insertRow(DDSQL_DB, DDSQL_CUSTOMERS, {
+    const existingInDdSQL = (await DdSQL.queryTable(DDSQL_DB, DDSQL_CUSTOMERS, { email: trimmedEmail }))[0]
+    if (!existingInDdSQL) {
+      await DdSQL.insertRow(DDSQL_DB, DDSQL_CUSTOMERS, {
         id,
         name: trimmedName,
         email: trimmedEmail,
@@ -126,40 +74,46 @@ export async function registerCustomer(name: string, email: string, password: st
         address: '',
         city: '',
         country: '',
-        created_at: record.createdAt,
-        status: record.status,
-        deleted_at: record.deletedAt || '',
-        updated_at: record.updatedAt || ''
+        created_at: now,
+        status: 'active',
+        deleted_at: '',
+        updated_at: now
       })
     }
-  } catch {
-    // best effort; ignore sync failures
-  }
+  } catch { /* best effort */ }
 
   const token = jwt.sign(
-    { user: record.id, role: 'customer', email: record.email, name: record.name },
+    { user: id, role: 'customer', email: trimmedEmail, name: trimmedName },
     JWT_SECRET,
     { expiresIn: '24h' }
   ) as string
 
-  return { success: true, token, role: 'customer', user: { id: record.id, name: record.name, email: record.email } }
+  return { success: true, token, role: 'customer', user: { id, name: trimmedName, email: trimmedEmail } }
 }
 
-export async function loginCustomer(email: string, password: string) {
-  const trimmedEmail = email.trim().toLowerCase()
-  const users = loadUsers()
-  const user = users.find((u) => u.email === trimmedEmail)
+export async function loginCustomer(email: unknown, password: unknown) {
+  const trimmedEmail = typeof email === 'string' ? email.trim().toLowerCase() : ''
+  const rawPassword = typeof password === 'string' ? password : ''
+
+  if (!trimmedEmail || !rawPassword) {
+    return { success: false, message: 'Email and password are required.' }
+  }
+
+  let user: CustomerAccountRecord | undefined
+
+  const accounts = await listCustomerAccounts()
+  user = accounts.find((account) => account.email === trimmedEmail)
+
   if (!user) {
     return { success: false, message: 'Invalid email or password.' }
   }
 
-  // Block disabled or deleted accounts
-  if (user.status === 'disabled' || user.deletedAt) {
+  if (user.status === 'disabled' || user.deleted_at) {
     return { success: false, message: 'Account is disabled. Please contact support.' }
   }
 
-  const passwordHash = hashPassword(password, user.salt)
-  if (passwordHash !== user.passwordHash) {
+  const passwordHash = hashPassword(rawPassword, user.salt)
+  if (passwordHash !== user.password_hash) {
     return { success: false, message: 'Invalid email or password.' }
   }
 

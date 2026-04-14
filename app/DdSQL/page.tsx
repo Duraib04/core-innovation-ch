@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiDatabase, FiTable, FiPlus, FiTrash2, FiRefreshCw, FiLogOut } from 'react-icons/fi'
@@ -32,15 +32,14 @@ export default function DdSQLPage() {
   const [newTableSchema, setNewTableSchema] = useState<TableSchema>({})
   const [schemaField, setSchemaField] = useState({ name: '', type: 'string' })
 
-  // Fetch databases on mount
-  useEffect(() => {
-    loadDatabases()
-  }, [])
-
-  const loadDatabases = async () => {
+  const loadDatabases = useCallback(async () => {
     setLoading(true)
     try {
       const response = await fetch('/api/ddsql?action=listDatabases')
+      if (response.status === 401) {
+        router.push('/login')
+        return
+      }
       const data = await response.json()
       console.log('Databases loaded:', data)
       setDatabases(data.databases || [])
@@ -50,12 +49,21 @@ export default function DdSQLPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [router])
+
+  // Fetch databases on mount
+  useEffect(() => {
+    loadDatabases()
+  }, [loadDatabases])
 
   const loadTables = async (dbName: string) => {
     setLoading(true)
     try {
       const response = await fetch(`/api/ddsql?action=listTables&db=${dbName}`)
+      if (response.status === 401) {
+        router.push('/login')
+        return
+      }
       const data = await response.json()
       setSelectedDb(dbName)
       setTables(data.tables || [])
@@ -72,6 +80,10 @@ export default function DdSQLPage() {
     setLoading(true)
     try {
       const response = await fetch(`/api/ddsql?action=getTableData&db=${dbName}&table=${tableName}`)
+      if (response.status === 401) {
+        router.push('/login')
+        return
+      }
       const data = await response.json()
       setSelectedTable(tableName)
       setTableData(data.data || [])

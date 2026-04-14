@@ -455,7 +455,7 @@ export default function CustomProjectPage() {
             Custom Project <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Request</span>
           </h1>
           <p className="text-gray-300 text-lg">
-            Let's create something amazing together! Chat with our AI assistant to design your perfect project.
+            Let&apos;s create something amazing together! Chat with our AI assistant to design your perfect project.
           </p>
         </motion.div>
 

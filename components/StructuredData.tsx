@@ -6,10 +6,27 @@ export default function StructuredData() {
     "@type": "Organization",
     "name": "DD-SHOP",
     "alternateName": "Core Innovation",
+    "legalName": "DD IOT SOLUTIONS",
     "url": "https://dd-products.vercel.app",
     "logo": "https://dd-products.vercel.app/images/logo.jpeg",
     "description": "Leading provider of IoT products, ready-made projects, software development, and custom IoT solutions. Smart home automation, Industry 4.0, ESP32/Arduino projects.",
     "email": "contact@ddshop.com",
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "MSME/Udyam",
+      "value": "UDYAM-TN-04-0124631"
+    },
+    "hasCredential": {
+      "@type": "EducationalOccupationalCredential",
+      "name": "MSME/Udyam Registration",
+      "credentialCategory": "Government Registration",
+      "recognizedBy": {
+        "@type": "Organization",
+        "name": "Government of India"
+      },
+      "identifier": "UDYAM-TN-04-0124631",
+      "url": "https://dd-products.vercel.app/certificates/DD-IOT-SOLUTION-GOVT-CERTIFICATE.pdf"
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+91-6369704741",
@@ -26,6 +43,7 @@ export default function StructuredData() {
     "@context": "https://schema.org",
     "@type": "Store",
     "name": "DD-SHOP - IoT Products & Custom Development",
+    "legalName": "DD IOT SOLUTIONS",
     "image": "https://dd-products.vercel.app/images/logo.jpeg",
     "description": "Buy IoT products, ready-made projects, and custom development services. Smart home automation, Industry 4.0 solutions, ESP32/Arduino projects, web & mobile apps.",
     "address": {
@@ -37,7 +55,12 @@ export default function StructuredData() {
     "priceRange": "₹₹",
     "openingHours": "Mo-Su 00:00-23:59",
     "currenciesAccepted": "INR",
-    "paymentAccepted": "Cash, Credit Card, UPI"
+    "paymentAccepted": "Cash, Credit Card, UPI",
+    "identifier": {
+      "@type": "PropertyValue",
+      "propertyID": "MSME/Udyam",
+      "value": "UDYAM-TN-04-0124631"
+    }
   }
 
   const serviceSchema = {

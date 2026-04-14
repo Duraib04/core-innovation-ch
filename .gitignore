@@ -10,6 +10,11 @@ frontend/node_modules/
 .env.local
 .env.production
 .env.development
+.env.vercel.*
+root
+Root@*
+admin_*
+jwt_*
 
 # Build outputs
 dist/
@@ -59,3 +64,4 @@ docs/PLACE_LOGO_HERE.txt
 docs/generate-report-pdf.js
 docs/project-report.html
 .vercel
+.env*.local

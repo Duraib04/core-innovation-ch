@@ -1,190 +1,228 @@
-import crypto from 'crypto'
-import fs from 'fs'
-import path from 'path'
+import { deleteBlobPath, deleteBlobPrefix, hasBlobStore, listBlobPaths, readJsonBlob, writeJsonBlob } from './blobStore'
+import { deleteDocumentTree, getFirestoreDb, hasFirebaseConfig, listCollectionDocuments } from './firebaseStore'
 
-const ENCRYPTION_KEY = process.env.DDSQL_KEY || 'dd-shop-default-secure-key-change-in-production-12345'
-const DATA_DIR = path.join(process.cwd(), 'data', 'DdSQL')
-
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true })
+function getTablePath(dbName: string, tableName: string) {
+  return `ddsql/${dbName}/${tableName}.json`
 }
 
-interface EncryptedData {
-  iv: string
-  encryptedData: string
+function getDatabaseRef(dbName: string) {
+  return getFirestoreDb().collection('ddsql_databases').doc(dbName)
 }
 
-// Encryption utilities
-function encrypt(text: string): EncryptedData {
-  const iv = crypto.randomBytes(16)
-  const cipher = crypto.createCipheriv(
-    'aes-256-cbc',
-    crypto.scryptSync(ENCRYPTION_KEY, 'salt', 32),
-    iv
-  )
-  let encrypted = cipher.update(text, 'utf8', 'hex')
-  encrypted += cipher.final('hex')
-  return { iv: iv.toString('hex'), encryptedData: encrypted }
+function getTablesCollection(dbName: string) {
+  return getDatabaseRef(dbName).collection('tables')
 }
 
-function decrypt(data: EncryptedData): string {
-  const decipher = crypto.createDecipheriv(
-    'aes-256-cbc',
-    crypto.scryptSync(ENCRYPTION_KEY, 'salt', 32),
-    Buffer.from(data.iv, 'hex')
-  )
-  let decrypted = decipher.update(data.encryptedData, 'hex', 'utf8')
-  decrypted += decipher.final('utf8')
-  return decrypted
+function getTableRef(dbName: string, tableName: string) {
+  return getTablesCollection(dbName).doc(tableName)
 }
 
-// Database operations
+function getRowsCollection(dbName: string, tableName: string) {
+  return getTableRef(dbName, tableName).collection('rows')
+}
+
+function sortRows(rows: Record<string, unknown>[]) {
+  return [...rows].sort((left, right) => {
+    const leftStamp = String(left.created_at || left.createdAt || left.updated_at || left.updatedAt || left.id || '')
+    const rightStamp = String(right.created_at || right.createdAt || right.updated_at || right.updatedAt || right.id || '')
+    return rightStamp.localeCompare(leftStamp)
+  })
+}
+
+// Database operations – backed by Firebase Firestore
 export class DdSQL {
-  static listDatabases(): string[] {
+  static async createDatabase(_dbName: string): Promise<boolean> {
     try {
-      if (!fs.existsSync(DATA_DIR)) return []
-      return fs.readdirSync(DATA_DIR).filter(f => fs.statSync(path.join(DATA_DIR, f)).isDirectory())
-    } catch {
-      return []
-    }
-  }
-
-  static createDatabase(dbName: string): boolean {
-    try {
-      const dbPath = path.join(DATA_DIR, dbName)
-      if (!fs.existsSync(dbPath)) {
-        fs.mkdirSync(dbPath, { recursive: true })
-        // Create metadata file
-        const metadata = { name: dbName, created: new Date().toISOString(), tables: [] }
-        const encrypted = encrypt(JSON.stringify(metadata))
-        fs.writeFileSync(path.join(dbPath, 'metadata.json'), JSON.stringify(encrypted))
+      if (hasFirebaseConfig()) {
+        await getDatabaseRef(_dbName).set({
+          name: _dbName,
+          created_at: new Date().toISOString()
+        }, { merge: true })
         return true
       }
-      return false
-    } catch {
-      return false
-    }
+
+      return hasBlobStore() ? true : false
+    } catch { return false }
   }
 
-  static deleteDatabase(dbName: string): boolean {
+  static async deleteDatabase(dbName: string): Promise<boolean> {
     try {
-      const dbPath = path.join(DATA_DIR, dbName)
-      if (fs.existsSync(dbPath)) {
-        fs.rmSync(dbPath, { recursive: true, force: true })
+      if (hasFirebaseConfig()) {
+        await deleteDocumentTree(getDatabaseRef(dbName))
         return true
       }
-      return false
-    } catch {
-      return false
-    }
-  }
 
-  static listTables(dbName: string): string[] {
-    try {
-      const dbPath = path.join(DATA_DIR, dbName)
-      if (!fs.existsSync(dbPath)) return []
-      return fs.readdirSync(dbPath).filter(f => f.endsWith('.table') && fs.statSync(path.join(dbPath, f)).isFile())
-    } catch {
-      return []
-    }
-  }
-
-  static createTable(dbName: string, tableName: string, schema: Record<string, string>): boolean {
-    try {
-      const dbPath = path.join(DATA_DIR, dbName)
-      if (!fs.existsSync(dbPath)) return false
-      
-      const tableFile = path.join(dbPath, `${tableName}.table`)
-      const tableData = {
-        name: tableName,
-        schema: schema,
-        rows: [],
-        created: new Date().toISOString()
-      }
-      const encrypted = encrypt(JSON.stringify(tableData))
-      fs.writeFileSync(tableFile, JSON.stringify(encrypted))
-      return true
-    } catch {
-      return false
-    }
-  }
-
-  static insertRow(dbName: string, tableName: string, rowData: Record<string, unknown>): boolean {
-    try {
-      const tableFile = path.join(DATA_DIR, dbName, `${tableName}.table`)
-      if (!fs.existsSync(tableFile)) return false
-      
-      const encryptedContent = JSON.parse(fs.readFileSync(tableFile, 'utf8'))
-      const tableData = JSON.parse(decrypt(encryptedContent))
-      
-      tableData.rows.push({ ...rowData, id: Date.now().toString() })
-      
-      const encrypted = encrypt(JSON.stringify(tableData))
-      fs.writeFileSync(tableFile, JSON.stringify(encrypted))
-      return true
-    } catch {
-      return false
-    }
-  }
-
-  static getTableData(dbName: string, tableName: string): Record<string, unknown>[] {
-    try {
-      const tableFile = path.join(DATA_DIR, dbName, `${tableName}.table`)
-      if (!fs.existsSync(tableFile)) return []
-      
-      const encryptedContent = JSON.parse(fs.readFileSync(tableFile, 'utf8'))
-      const tableData = JSON.parse(decrypt(encryptedContent))
-      return tableData.rows || []
-    } catch {
-      return []
-    }
-  }
-
-  static deleteRow(dbName: string, tableName: string, rowId: string): boolean {
-    try {
-      const tableFile = path.join(DATA_DIR, dbName, `${tableName}.table`)
-      if (!fs.existsSync(tableFile)) return false
-      
-      const encryptedContent = JSON.parse(fs.readFileSync(tableFile, 'utf8'))
-      const tableData = JSON.parse(decrypt(encryptedContent))
-      
-      tableData.rows = tableData.rows.filter((row: Record<string, unknown>) => row.id !== rowId)
-      
-      const encrypted = encrypt(JSON.stringify(tableData))
-      fs.writeFileSync(tableFile, JSON.stringify(encrypted))
-      return true
-    } catch {
-      return false
-    }
-  }
-
-  static deleteTable(dbName: string, tableName: string): boolean {
-    try {
-      const tableFile = path.join(DATA_DIR, dbName, `${tableName}.table`)
-      if (fs.existsSync(tableFile)) {
-        fs.unlinkSync(tableFile)
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        await deleteBlobPrefix(`ddsql/${dbName}/`)
         return true
       }
-      return false
-    } catch {
-      return false
-    }
+    } catch { return false }
+
+    return false
   }
 
-  static queryTable(dbName: string, tableName: string, filter?: Record<string, unknown>): Record<string, unknown>[] {
+  static async listDatabases(): Promise<string[]> {
     try {
-      let rows = this.getTableData(dbName, tableName)
-      
-      if (filter) {
-        rows = rows.filter(row => {
-          return Object.entries(filter).every(([key, value]) => row[key] === value)
-        })
+      if (hasFirebaseConfig()) {
+        const snapshot = await getFirestoreDb().collection('ddsql_databases').get()
+        return snapshot.docs.map((document) => document.id).sort()
       }
-      
-      return rows
-    } catch {
-      return []
-    }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        const pathnames = await listBlobPaths('ddsql/')
+        return Array.from(new Set(pathnames.map((pathname) => pathname.split('/')[1]).filter(Boolean))).sort()
+      }
+    } catch { return [] }
+
+    return []
+  }
+
+  static async createTable(
+    dbName: string,
+    tableName: string,
+    _schema: Record<string, string>
+  ): Promise<boolean> {
+    try {
+      if (hasFirebaseConfig()) {
+        await getTableRef(dbName, tableName).set({
+          name: tableName,
+          schema: _schema,
+          created_at: new Date().toISOString()
+        }, { merge: true })
+        return true
+      }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        const tablePath = getTablePath(dbName, tableName)
+        const existing = await readJsonBlob<Record<string, unknown>[]>(tablePath, [])
+        if (existing.length === 0) {
+          await writeJsonBlob(tablePath, [])
+        }
+        return true
+      }
+    } catch { return false }
+
+    return false
+  }
+
+  static async listTables(dbName: string): Promise<string[]> {
+    try {
+      if (hasFirebaseConfig()) {
+        const snapshot = await getTablesCollection(dbName).get()
+        return snapshot.docs.map((document) => document.id).sort()
+      }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        const pathnames = await listBlobPaths(`ddsql/${dbName}/`)
+        return pathnames
+          .map((pathname) => pathname.split('/').pop() || '')
+          .filter(Boolean)
+          .map((filename) => filename.replace(/\.json$/i, ''))
+          .sort()
+      }
+    } catch { return [] }
+
+    return []
+  }
+
+  static async deleteTable(dbName: string, tableName: string): Promise<boolean> {
+    try {
+      if (hasFirebaseConfig()) {
+        await deleteDocumentTree(getTableRef(dbName, tableName))
+        return true
+      }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        await deleteBlobPath(getTablePath(dbName, tableName))
+        return true
+      }
+    } catch { return false }
+
+    return false
+  }
+
+  static async insertRow(
+    dbName: string,
+    tableName: string,
+    rowData: Record<string, unknown>
+  ): Promise<boolean> {
+    try {
+      if (hasFirebaseConfig()) {
+        const id = rowData.id ? String(rowData.id) : Date.now().toString()
+        const data = { ...rowData, id }
+        await getRowsCollection(dbName, tableName).doc(id).set(data, { merge: true })
+        return true
+      }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        const tablePath = getTablePath(dbName, tableName)
+        const rows = await readJsonBlob<Record<string, unknown>[]>(tablePath, [])
+        const id = rowData.id ? String(rowData.id) : Date.now().toString()
+        const data = { ...rowData, id }
+        const nextRows = rows.filter((row) => String(row.id ?? '') !== id)
+        nextRows.push(data)
+        await writeJsonBlob(tablePath, nextRows)
+        return true
+      }
+    } catch { return false }
+
+    return false
+  }
+
+  static async getTableData(
+    dbName: string,
+    tableName: string
+  ): Promise<Record<string, unknown>[]> {
+    try {
+      if (hasFirebaseConfig()) {
+        const rows = await listCollectionDocuments<Record<string, unknown>>(getRowsCollection(dbName, tableName))
+        return sortRows(rows)
+      }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        return await readJsonBlob<Record<string, unknown>[]>(getTablePath(dbName, tableName), [])
+      }
+    } catch { return [] }
+
+    return []
+  }
+
+  static async deleteRow(
+    dbName: string,
+    tableName: string,
+    rowId: string
+  ): Promise<boolean> {
+    try {
+      if (hasFirebaseConfig()) {
+        await getRowsCollection(dbName, tableName).doc(rowId).delete()
+        return true
+      }
+
+      if (!hasFirebaseConfig() && hasBlobStore()) {
+        const tablePath = getTablePath(dbName, tableName)
+        const rows = await readJsonBlob<Record<string, unknown>[]>(tablePath, [])
+        await writeJsonBlob(
+          tablePath,
+          rows.filter((row) => String(row.id ?? '') !== rowId)
+        )
+        return true
+      }
+    } catch { return false }
+
+    return false
+  }
+
+  static async queryTable(
+    dbName: string,
+    tableName: string,
+    filter?: Record<string, unknown>
+  ): Promise<Record<string, unknown>[]> {
+    try {
+      const rows = await this.getTableData(dbName, tableName)
+      if (!filter) return rows
+      return rows.filter((row) =>
+        Object.entries(filter).every(([key, value]) => row[key] === value)
+      )
+    } catch { return [] }
   }
 }

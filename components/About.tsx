@@ -93,6 +93,33 @@ export default function About() {
           </div>
         </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mb-20 max-w-5xl mx-auto"
+        >
+          <div className="relative bg-gradient-to-br from-gray-900 to-black p-8 rounded-2xl border border-emerald-400/30">
+            <h3 className="text-3xl font-bold mb-4 text-emerald-300">Government Registration & Trust</h3>
+            <p className="text-gray-200 leading-relaxed mb-4">
+              DD IOT SOLUTIONS is officially registered under the Government of India MSME/Udyam program.
+            </p>
+            <div className="space-y-2 text-gray-300">
+              <p><span className="text-white font-semibold">Legal Business Name:</span> DD IOT SOLUTIONS</p>
+              <p><span className="text-white font-semibold">MSME/Udyam Registration Number:</span> UDYAM-TN-04-0124631</p>
+            </div>
+            <a
+              href="/certificates/DD-IOT-SOLUTION-GOVT-CERTIFICATE.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center mt-6 px-5 py-3 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 hover:bg-emerald-500/30 transition-colors"
+            >
+              View Government Registration Certificate (PDF)
+            </a>
+          </div>
+        </motion.div>
+
         {/* Stats section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}

@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiShoppingCart, FiStar, FiHeart, FiZap, FiX, FiMail, FiEye } from 'react-icons/fi'
 import { FaWhatsapp, FaFacebookMessenger } from 'react-icons/fa'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import jsPDF from 'jspdf'
 import VideoBackground from './VideoBackground'
@@ -30,19 +30,6 @@ export default function Products() {
     pincode: '',
     quantity: '1',
   })
-
-  // Open modal automatically when arriving with ?order=slug
-  useEffect(() => {
-    const orderSlug = searchParams.get('order')
-    if (!orderSlug) return
-
-    const matchedProduct = products.find((p) => p.slug === orderSlug)
-    if (matchedProduct) {
-      setSelectedProduct(matchedProduct.name)
-      setSelectedProductPrice(matchedProduct.price)
-      setShowModal(true)
-    }
-  }, [searchParams])
 
   const handleAddToCart = (productName: string, productPrice: string) => {
     setSelectedProduct(productName)
@@ -290,7 +277,7 @@ export default function Products() {
     })
   }
 
-  const products = [
+  const products = useMemo(() => [
     {
       name: 'Smart IoT Industry Ecosystem',
       slug: 'smart-iot-industry-ecosystem',
@@ -375,7 +362,20 @@ export default function Products() {
       badge: '🎉 DEMO PRICE',
       color: 'from-pink-500 to-rose-500',
     },
-  ]
+  ], [])
+
+  // Open modal automatically when arriving with ?order=slug
+  useEffect(() => {
+    const orderSlug = searchParams.get('order')
+    if (!orderSlug) return
+
+    const matchedProduct = products.find((p) => p.slug === orderSlug)
+    if (matchedProduct) {
+      setSelectedProduct(matchedProduct.name)
+      setSelectedProductPrice(matchedProduct.price)
+      setShowModal(true)
+    }
+  }, [searchParams, products])
 
   // Generate structured data for SEO
   const structuredData = {
@@ -467,7 +467,7 @@ export default function Products() {
                 <span>🎯</span> Need Something Custom?
               </h3>
               <p className="text-xs md:text-lg text-white/90">
-                Can't find what you need? Let's build your dream project together! Our AI assistant will help design your perfect solution.
+                Can&apos;t find what you need? Let&apos;s build your dream project together! Our AI assistant will help design your perfect solution.
               </p>
             </div>
             <motion.div

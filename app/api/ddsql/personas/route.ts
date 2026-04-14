@@ -17,11 +17,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Load source data
-    const customers = DdSQL.getTableData(DB, 'customers') as any[]
-    const products = DdSQL.getTableData(DB, 'products') as any[]
-    const orders = DdSQL.getTableData(DB, 'orders') as any[]
-    const items = DdSQL.getTableData(DB, 'order_items') as any[]
-    const reviews = DdSQL.getTableData(DB, 'reviews') as any[]
+    const [customers, products, orders, items, reviews] = await Promise.all([
+      DdSQL.getTableData(DB, 'customers'),
+      DdSQL.getTableData(DB, 'products'),
+      DdSQL.getTableData(DB, 'orders'),
+      DdSQL.getTableData(DB, 'order_items'),
+      DdSQL.getTableData(DB, 'reviews'),
+    ]) as [any[], any[], any[], any[], any[]]
 
     // Build indices
     const productMap = new Map<string, any>()
@@ -57,8 +59,8 @@ export async function POST(request: NextRequest) {
       categoryAvg[cat] = agg.count ? agg.sum / agg.count : 0
     })
 
-    // Prepare target table schema (overwrites if exists)
-    DdSQL.createTable(DB, PERSONA_TABLE, {
+    // Prepare target table schema (no-op in Postgres)
+    await DdSQL.createTable(DB, PERSONA_TABLE, {
       customer_id: 'string',
       persona: 'string',
       summary: 'string',
@@ -77,6 +79,7 @@ export async function POST(request: NextRequest) {
 
     // Compute personas
     const now = new Date()
+    const personaRows: Array<Record<string, unknown>> = []
     customers.forEach(c => {
       const cid = String(c.id || c.customer_id)
       const custOrders = (ordersByCustomer.get(cid) || []).sort((a, b) => new Date(b.order_date).getTime() - new Date(a.order_date).getTime())
@@ -141,7 +144,7 @@ export async function POST(request: NextRequest) {
 
       const summary = `${persona}: ${c.name || cid} tends to buy ${topCategory}, spent ${totalSpend.toFixed(0)}, ${orderCount} orders, ${reviewCount} reviews. Price: ${priceSensitivity}.`
 
-      DdSQL.insertRow(DB, PERSONA_TABLE, {
+      personaRows.push({
         customer_id: cid,
         persona,
         summary,
@@ -159,6 +162,8 @@ export async function POST(request: NextRequest) {
       })
     })
 
+    await Promise.all(personaRows.map(row => DdSQL.insertRow(DB, PERSONA_TABLE, row)))
+
     return NextResponse.json({ success: true, count: customers.length, table: PERSONA_TABLE })
   } catch (error) {
     console.error('[Personas] Error:', error)
@@ -170,7 +175,7 @@ export async function GET() {
   try {
     const user = await getSessionUser()
     if (!user || user.role !== 'root') return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    const rows = DdSQL.getTableData(DB, PERSONA_TABLE)
+    const rows = await DdSQL.getTableData(DB, PERSONA_TABLE)
     return NextResponse.json({ data: rows })
   } catch (error) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
