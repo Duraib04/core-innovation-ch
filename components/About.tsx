@@ -108,6 +108,7 @@ export default function About() {
             <div className="space-y-2 text-gray-300">
               <p><span className="text-white font-semibold">Legal Business Name:</span> DD IOT SOLUTIONS</p>
               <p><span className="text-white font-semibold">MSME/Udyam Registration Number:</span> UDYAM-TN-04-0124631</p>
+              <p><span className="text-white font-semibold">Founder & IoT Engineer:</span> DURAI B</p>
             </div>
             <a
               href="/certificates/DD-IOT-SOLUTION-GOVT-CERTIFICATE.pdf"

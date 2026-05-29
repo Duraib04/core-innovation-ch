@@ -33,6 +33,15 @@ export default function StructuredData() {
       "contactType": "customer service",
       "availableLanguage": ["English", "Tamil"]
     },
+    "founder": {
+      "@type": "Person",
+      "name": "DURAI B",
+      "jobTitle": "Founder & IoT Engineer",
+      "sameAs": [
+        "https://www.facebook.com/durai.b.473058323",
+        "https://twitter.com/Durai4444"
+      ]
+    },
     "sameAs": [
       "https://www.facebook.com/durai.b.473058323",
       "https://twitter.com/Durai4444"
@@ -60,6 +69,10 @@ export default function StructuredData() {
       "@type": "PropertyValue",
       "propertyID": "MSME/Udyam",
       "value": "UDYAM-TN-04-0124631"
+    }
+    ,"founder": {
+      "@type": "Person",
+      "name": "DURAI B"
     }
   }
 
