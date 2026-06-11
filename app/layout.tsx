@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     'core innovation iot development services'
   ],
   authors: [{ name: 'Durai', url: 'https://core-innovation-ch.vercel.app' }],
-  creator: 'Durai',
+  creator: 'DURAI B',
   publisher: 'Core Innovation',
   formatDetection: {
     email: false,
@@ -60,10 +60,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80',
+        url: 'https://dd-products.vercel.app/durai.jpeg',
         width: 1200,
         height: 630,
-        alt: 'Core Innovation - IoT and Smart Technology Solutions',
+        alt: 'DURAI B - Founder & IoT Engineer',
       },
     ],
   },
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: 'Buy IoT Products & Projects | Custom Development Services',
     description: 'Shop IoT products, ready-made projects, custom IoT & software development',
     creator: '@Durai4444',
-    images: ['https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80'],
+    images: ['https://dd-products.vercel.app/durai.jpeg'],
   },
   robots: {
     index: true,

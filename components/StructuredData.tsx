@@ -40,7 +40,8 @@ export default function StructuredData() {
       "sameAs": [
         "https://www.facebook.com/durai.b.473058323",
         "https://twitter.com/Durai4444"
-      ]
+      ],
+      "image": "https://dd-products.vercel.app/durai.jpeg"
     },
     "sameAs": [
       "https://www.facebook.com/durai.b.473058323",
@@ -53,7 +54,7 @@ export default function StructuredData() {
     "@type": "Store",
     "name": "DD-SHOP - IoT Products & Custom Development",
     "legalName": "DD IOT SOLUTIONS",
-    "image": "https://dd-products.vercel.app/images/logo.jpeg",
+    "image": "https://dd-products.vercel.app/durai.jpeg",
     "description": "Buy IoT products, ready-made projects, and custom development services. Smart home automation, Industry 4.0 solutions, ESP32/Arduino projects, web & mobile apps.",
     "address": {
       "@type": "PostalAddress",
